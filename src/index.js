@@ -17,7 +17,7 @@ const client = new Client({
 client.commands = new Collection();
 client.components = new Collection();
 
-// Load command files
+// --- Command Loader ---
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
@@ -33,26 +33,48 @@ for (const file of commandFiles) {
     }
 }
 
-// Load component files
-const componentsPath = path.join(__dirname, 'components');
-const componentFolders = fs.readdirSync(componentsPath);
+// --- Recursive Component Loader ---
+// This function will find all component handlers, even in subdirectories,
+// and correctly loads files that export single objects, arrays of objects, or multiple handlers.
+function loadComponents(dir) {
+    const files = fs.readdirSync(dir, { withFileTypes: true });
 
-for (const folder of componentFolders) {
-    const componentPath = path.join(componentsPath, folder);
-    const componentFiles = fs.readdirSync(componentPath).filter(file => file.endsWith('.js'));
-    
-    for (const file of componentFiles) {
-        const filePath = path.join(componentPath, file);
-        const component = require(filePath);
-        
-        if ('customId' in component && 'execute' in component) {
-            client.components.set(component.customId, component);
-            console.log(`[COMPONENT] Loaded ${component.customId}`);
+    for (const file of files) {
+        const fullPath = path.join(dir, file.name);
+        if (file.isDirectory()) {
+            loadComponents(fullPath);
+        } else if (file.name.endsWith('.js')) {
+            try {
+                const componentExports = require(fullPath);
+                
+                // Handle different export styles (single object, array of objects, etc.)
+                const handlers = Array.isArray(componentExports) ? componentExports : Object.values(componentExports);
+
+                for (const handler of handlers) {
+                    if (handler && typeof handler.customId !== 'undefined' && typeof handler.execute === 'function') {
+                        const id = handler.customId instanceof RegExp ? handler.customId.toString() : handler.customId;
+                        if (client.components.has(id)) {
+                             console.warn(`[WARNING] Duplicate component customId found: ${id}. Overwriting.`);
+                        }
+                        // Store the component with its customId (string or regex string) as the key
+                        client.components.set(id, handler);
+                        console.log(`[COMPONENT] Loaded ${id}`);
+                    }
+                }
+            } catch (error) {
+                console.error(`[ERROR] Failed to load components from ${fullPath}:`, error);
+            }
         }
     }
 }
 
-// Load event files
+const componentsPath = path.join(__dirname, 'components');
+console.log('[COMPONENT] Loading components...');
+loadComponents(componentsPath);
+console.log(`[COMPONENT] Total components loaded: ${client.components.size}`);
+
+
+// --- Event Loader ---
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
@@ -61,14 +83,14 @@ for (const file of eventFiles) {
     const event = require(filePath);
     
     if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
+        client.once(event.name, (...args) => event.execute(...args, client));
     } else {
-        client.on(event.name, (...args) => event.execute(...args));
+        client.on(event.name, (...args) => event.execute(...args, client));
     }
     console.log(`[EVENT] Loaded ${event.name}`);
 }
 
-// Error handling
+// --- Global Error Handling ---
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
 });
@@ -78,5 +100,10 @@ process.on('uncaughtException', error => {
     process.exit(1);
 });
 
-// Login to Discord
-client.login(process.env.DISCORD_TOKEN);
+// --- Login to Discord ---
+const token = process.env.DISCORD_TOKEN;
+if (!token) {
+    console.error("[FATAL] DISCORD_TOKEN environment variable is not set! The bot cannot log in.");
+    process.exit(1);
+}
+client.login(token);

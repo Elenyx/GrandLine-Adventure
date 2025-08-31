@@ -1,14 +1,21 @@
 {
-  "name": "workspace",
+  "name": "grandline-adventure",
   "version": "1.0.0",
-  "main": "deploy-commands.js",
+  "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "deploy": "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "discord",
+    "bot",
+    "rpg",
+    "one-piece"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "A One Piece themed RPG bot for Discord.",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "discord.js": "^14.22.1",
