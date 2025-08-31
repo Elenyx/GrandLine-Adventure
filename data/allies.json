@@ -1,0 +1,403 @@
+{
+  "1": {
+    "id": 1,
+    "name": "Roronoa Zoro",
+    "description": "A master swordsman seeking to become the world's greatest. His three-sword style is legendary among pirates and Marines alike.",
+    "rarity": "epic",
+    "faction": "pirate",
+    "origin_arc": "Romance Dawn",
+    "image_url": null,
+    "buffs": {
+      "strength": 15,
+      "sword_damage": 20,
+      "critical_chance": 10
+    },
+    "unlock_condition": {
+      "min_level": 2,
+      "required_quest": "Defeat Captain Morgan",
+      "required_faction": null,
+      "min_bounty": 0
+    },
+    "abilities": [
+      "Three Sword Style",
+      "Oni Giri",
+      "Tatsumaki"
+    ],
+    "bond_benefits": {
+      "1": {"sword_mastery": 5},
+      "2": {"sword_mastery": 10, "strength": 2},
+      "3": {"sword_mastery": 15, "strength": 4, "three_sword_style": true},
+      "4": {"sword_mastery": 20, "strength": 6, "asura_technique": true},
+      "5": {"sword_mastery": 25, "strength": 10, "kings_haki_resistance": true}
+    },
+    "lore": "Once a famous bounty hunter, Zoro joined Luffy's crew after being saved from execution. He dreams of becoming the world's greatest swordsman and has never lost his sense of direction, though he's terrible with directions. His loyalty to his captain and crew is absolute."
+  },
+  "2": {
+    "id": 2,
+    "name": "Nami",
+    "description": "A talented navigator and former thief with an incredible love for treasure and weather prediction abilities.",
+    "rarity": "rare",
+    "faction": "pirate",
+    "origin_arc": "Orange Town",
+    "image_url": null,
+    "buffs": {
+      "intelligence": 10,
+      "gold_bonus": 15,
+      "navigation_speed": 20
+    },
+    "unlock_condition": {
+      "min_level": 3,
+      "required_quest": null,
+      "required_faction": null,
+      "min_bounty": 0
+    },
+    "abilities": [
+      "Weather Prediction",
+      "Clima-Tact Mastery",
+      "Thievery"
+    ],
+    "bond_benefits": {
+      "1": {"gold_bonus": 5, "navigation": 5},
+      "2": {"gold_bonus": 10, "navigation": 10, "weather_sense": true},
+      "3": {"gold_bonus": 15, "navigation": 15, "storm_prediction": true},
+      "4": {"gold_bonus": 20, "navigation": 20, "weather_control": true},
+      "5": {"gold_bonus": 25, "navigation": 25, "perfect_navigation": true}
+    },
+    "lore": "Nami was forced to work for the fish-man Arlong to buy back her village's freedom. She's an exceptional navigator who can sense weather changes and has a talent for making money. Her dream is to draw a map of the entire world."
+  },
+  "3": {
+    "id": 3,
+    "name": "Usopp",
+    "description": "A brave sniper with incredible marksmanship skills and a talent for invention, despite his tendency to exaggerate.",
+    "rarity": "uncommon",
+    "faction": "pirate",
+    "origin_arc": "Syrup Village",
+    "image_url": null,
+    "buffs": {
+      "agility": 8,
+      "ranged_damage": 12,
+      "crafting_bonus": 10
+    },
+    "unlock_condition": {
+      "min_level": 4,
+      "required_quest": null,
+      "required_faction": null,
+      "min_bounty": 0
+    },
+    "abilities": [
+      "Kabuto Slingshot",
+      "Pop Green",
+      "Observation Haki"
+    ],
+    "bond_benefits": {
+      "1": {"ranged_accuracy": 5, "courage": 5},
+      "2": {"ranged_accuracy": 10, "courage": 10, "gadget_crafting": true},
+      "3": {"ranged_accuracy": 15, "courage": 15, "pop_green_mastery": true},
+      "4": {"ranged_accuracy": 20, "courage": 20, "observation_haki": true},
+      "5": {"ranged_accuracy": 25, "courage": 25, "god_usopp_legend": true}
+    },
+    "lore": "The son of Yasopp, a member of Red-Hair Shanks' crew. Usopp is known for his tall tales and cowardly nature, but when push comes to shove, he's willing to risk everything for his friends. His dream is to become a brave warrior of the sea."
+  },
+  "4": {
+    "id": 4,
+    "name": "Monkey D. Luffy",
+    "description": "The future Pirate King with the power of the Gum-Gum Fruit. His determination and charisma inspire others to follow their dreams.",
+    "rarity": "legendary",
+    "faction": "pirate",
+    "origin_arc": "Romance Dawn",
+    "image_url": null,
+    "buffs": {
+      "strength": 25,
+      "durability": 20,
+      "leadership": 30,
+      "crew_morale": 25
+    },
+    "unlock_condition": {
+      "min_level": 10,
+      "required_quest": null,
+      "required_faction": "pirate",
+      "min_bounty": 50000000
+    },
+    "abilities": [
+      "Gum-Gum Pistol",
+      "Gear Second",
+      "Conqueror's Haki"
+    ],
+    "bond_benefits": {
+      "1": {"leadership": 10, "rubber_resistance": true},
+      "2": {"leadership": 15, "gear_second": true, "crew_inspiration": true},
+      "3": {"leadership": 20, "gear_third": true, "conquers_haki": true},
+      "4": {"leadership": 25, "gear_fourth": true, "advanced_haki": true},
+      "5": {"leadership": 30, "gear_fifth": true, "pirate_king_aura": true}
+    },
+    "lore": "Luffy ate the Gum-Gum Devil Fruit as a child, giving him rubber powers. He was inspired by Red-Haired Shanks to become a pirate and find the One Piece treasure. His infectious optimism and unwavering loyalty make him a natural leader."
+  },
+  "5": {
+    "id": 5,
+    "name": "Sanji",
+    "description": "A master chef and powerful fighter who never wastes food. His Black Leg fighting style is as refined as his cooking.",
+    "rarity": "epic",
+    "faction": "pirate",
+    "origin_arc": "Baratie",
+    "image_url": null,
+    "buffs": {
+      "agility": 12,
+      "cooking": 25,
+      "kick_damage": 18,
+      "chivalry": 15
+    },
+    "unlock_condition": {
+      "min_level": 8,
+      "required_quest": null,
+      "required_faction": null,
+      "min_bounty": 0
+    },
+    "abilities": [
+      "Black Leg Style",
+      "Diable Jambe",
+      "Sky Walk"
+    ],
+    "bond_benefits": {
+      "1": {"cooking_mastery": 10, "kick_power": 5},
+      "2": {"cooking_mastery": 15, "kick_power": 10, "all_blue_knowledge": true},
+      "3": {"cooking_mastery": 20, "kick_power": 15, "diable_jambe": true},
+      "4": {"cooking_mastery": 25, "kick_power": 20, "sky_walk": true},
+      "5": {"cooking_mastery": 30, "kick_power": 25, "germa_66_power": true}
+    },
+    "lore": "Sanji was trained by Red-Leg Zeff at the Baratie restaurant. He follows a strict code of chivalry and never uses his hands in combat, as they're meant for cooking. His dream is to find the All Blue, a legendary sea containing every type of fish."
+  },
+  "6": {
+    "id": 6,
+    "name": "Tony Tony Chopper",
+    "description": "A reindeer who ate the Human-Human Fruit, becoming the world's most adorable doctor with incredible medical knowledge.",
+    "rarity": "rare",
+    "faction": "pirate",
+    "origin_arc": "Drum Island",
+    "image_url": null,
+    "buffs": {
+      "intelligence": 15,
+      "medical_knowledge": 30,
+      "transformation_ability": 20
+    },
+    "unlock_condition": {
+      "min_level": 12,
+      "required_quest": "Save Drum Island",
+      "required_faction": null,
+      "min_bounty": 0
+    },
+    "abilities": [
+      "Rumble Ball",
+      "Monster Point",
+      "Medical Expertise"
+    ],
+    "bond_benefits": {
+      "1": {"healing_power": 10, "medical_knowledge": 5},
+      "2": {"healing_power": 15, "medical_knowledge": 10, "rumble_ball": true},
+      "3": {"healing_power": 20, "medical_knowledge": 15, "heavy_point": true},
+      "4": {"healing_power": 25, "medical_knowledge": 20, "monster_point": true},
+      "5": {"healing_power": 30, "medical_knowledge": 25, "perfect_doctor": true}
+    },
+    "lore": "Chopper was ostracized by both reindeer and humans until Dr. Hiriluk taught him about helping others. After Hiriluk's death, Dr. Kureha completed his medical training. His dream is to become a doctor capable of curing any disease."
+  },
+  "7": {
+    "id": 7,
+    "name": "Nico Robin",
+    "description": "The sole survivor of Ohara with the ability to read Poneglyphs and uncover the true history of the world.",
+    "rarity": "epic",
+    "faction": "pirate",
+    "origin_arc": "Alabasta",
+    "image_url": null,
+    "buffs": {
+      "intelligence": 20,
+      "archaeology": 30,
+      "ancient_knowledge": 25
+    },
+    "unlock_condition": {
+      "min_level": 15,
+      "required_quest": "Alabasta Civil War",
+      "required_faction": null,
+      "min_bounty": 20000000
+    },
+    "abilities": [
+      "Flower-Flower Fruit",
+      "Poneglyph Reading",
+      "Ancient Knowledge"
+    ],
+    "bond_benefits": {
+      "1": {"history_knowledge": 10, "research_speed": 5},
+      "2": {"history_knowledge": 15, "research_speed": 10, "poneglyph_reading": true},
+      "3": {"history_knowledge": 20, "research_speed": 15, "void_century_clues": true},
+      "4": {"history_knowledge": 25, "research_speed": 20, "ancient_weapon_knowledge": true},
+      "5": {"history_knowledge": 30, "research_speed": 25, "true_history_revealed": true}
+    },
+    "lore": "Robin survived the destruction of Ohara and lived as a fugitive for 20 years. She can read the ancient Poneglyphs that contain the true history of the world. Her dream is to find the Rio Poneglyph and learn the complete history."
+  },
+  "8": {
+    "id": 8,
+    "name": "Franky",
+    "description": "A cyborg shipwright powered by cola with incredible engineering skills and a passion for building amazing ships.",
+    "rarity": "epic",
+    "faction": "pirate",
+    "origin_arc": "Water 7",
+    "image_url": null,
+    "buffs": {
+      "strength": 18,
+      "durability": 20,
+      "engineering": 30,
+      "shipbuilding": 25
+    },
+    "unlock_condition": {
+      "min_level": 18,
+      "required_quest": "Enies Lobby",
+      "required_faction": null,
+      "min_bounty": 30000000
+    },
+    "abilities": [
+      "Coup de Vent",
+      "Franky Shogun",
+      "Shipwright Mastery"
+    ],
+    "bond_benefits": {
+      "1": {"shipbuilding": 10, "cola_power": 5},
+      "2": {"shipbuilding": 15, "cola_power": 10, "franky_boxing": true},
+      "3": {"shipbuilding": 20, "cola_power": 15, "battle_franky": true},
+      "4": {"shipbuilding": 25, "cola_power": 20, "franky_shogun": true},
+      "5": {"shipbuilding": 30, "cola_power": 25, "thousand_sunny_creator": true}
+    },
+    "lore": "Franky was trained by the legendary shipwright Tom and built the Thousand Sunny for the Straw Hat Pirates. He modified his body into a cyborg after a tragic accident. His dream is to build a ship that can circumnavigate the world."
+  },
+  "9": {
+    "id": 9,
+    "name": "Brook",
+    "description": "A skeleton musician brought back to life by the Revive-Revive Fruit. His music can inspire allies and frighten enemies.",
+    "rarity": "rare",
+    "faction": "pirate",
+    "origin_arc": "Thriller Bark",
+    "image_url": null,
+    "buffs": {
+      "agility": 15,
+      "music_power": 25,
+      "soul_manipulation": 20
+    },
+    "unlock_condition": {
+      "min_level": 20,
+      "required_quest": "Thriller Bark",
+      "required_faction": null,
+      "min_bounty": 25000000
+    },
+    "abilities": [
+      "Soul Solid",
+      "Musical Hypnosis",
+      "Yohohoho Laugh"
+    ],
+    "bond_benefits": {
+      "1": {"music_mastery": 10, "soul_power": 5},
+      "2": {"music_mastery": 15, "soul_power": 10, "skeleton_jokes": true},
+      "3": {"music_mastery": 20, "soul_power": 15, "soul_solid": true},
+      "4": {"music_mastery": 25, "soul_power": 20, "musical_hypnosis": true},
+      "5": {"music_mastery": 30, "soul_power": 25, "laboon_reunion": true}
+    },
+    "lore": "Brook was the musician of the Rumbar Pirates who died but was revived by his Devil Fruit power. He waited 50 years on a ghost ship for someone to fulfill his promise to return to Laboon. His dream is to reunite with the whale Laboon."
+  },
+  "10": {
+    "id": 10,
+    "name": "Portgas D. Ace",
+    "description": "The Fire Fist himself, Luffy's sworn brother with the power of the Flame-Flame Fruit and unwavering loyalty.",
+    "rarity": "legendary",
+    "faction": "pirate",
+    "origin_arc": "Marineford",
+    "image_url": null,
+    "buffs": {
+      "strength": 22,
+      "agility": 18,
+      "fire_power": 30,
+      "brotherhood": 20
+    },
+    "unlock_condition": {
+      "min_level": 25,
+      "required_quest": "Marineford War",
+      "required_faction": "pirate",
+      "min_bounty": 100000000
+    },
+    "abilities": [
+      "Fire Fist",
+      "Flame Emperor",
+      "Conqueror's Haki"
+    ],
+    "bond_benefits": {
+      "1": {"fire_resistance": 25, "brotherhood_bond": 5},
+      "2": {"fire_resistance": 50, "brotherhood_bond": 10, "flame_mastery": true},
+      "3": {"fire_resistance": 75, "brotherhood_bond": 15, "fire_fist_technique": true},
+      "4": {"fire_resistance": 90, "brotherhood_bond": 20, "flame_emperor": true},
+      "5": {"fire_resistance": 100, "brotherhood_bond": 25, "ace_legacy": true}
+    },
+    "lore": "The son of Gol D. Roger and second division commander of the Whitebeard Pirates. Ace was known for his incredible fire powers and his loyalty to his crew and brothers. He sacrificed his life to save Luffy during the Marineford War."
+  },
+  "11": {
+    "id": 11,
+    "name": "Sabo",
+    "description": "The Revolutionary Army's Chief of Staff and Luffy's sworn brother, wielding the power of the Flame-Flame Fruit.",
+    "rarity": "legendary",
+    "faction": "revolutionary",
+    "origin_arc": "Dressrosa",
+    "image_url": null,
+    "buffs": {
+      "strength": 20,
+      "agility": 22,
+      "revolutionary_tactics": 25,
+      "flame_power": 25
+    },
+    "unlock_condition": {
+      "min_level": 30,
+      "required_quest": null,
+      "required_faction": "revolutionary",
+      "min_bounty": 50000000
+    },
+    "abilities": [
+      "Dragon Claw Fist",
+      "Flame-Flame Fruit",
+      "Revolutionary Tactics"
+    ],
+    "bond_benefits": {
+      "1": {"revolutionary_knowledge": 10, "dragon_claw": 5},
+      "2": {"revolutionary_knowledge": 15, "dragon_claw": 10, "flame_inheritance": true},
+      "3": {"revolutionary_knowledge": 20, "dragon_claw": 15, "revolutionary_commander": true},
+      "4": {"revolutionary_knowledge": 25, "dragon_claw": 20, "freedom_fighter": true},
+      "5": {"revolutionary_knowledge": 30, "dragon_claw": 25, "world_liberation": true}
+    },
+    "lore": "Sabo was presumed dead as a child but was saved by Monkey D. Dragon and became the Revolutionary Army's Chief of Staff. He inherited Ace's Flame-Flame Fruit and fights to liberate the world from the World Government's tyranny."
+  },
+  "12": {
+    "id": 12,
+    "name": "Trafalgar D. Water Law",
+    "description": "The Surgeon of Death with the Op-Op Fruit, capable of creating medical miracles and devastating attacks.",
+    "rarity": "epic",
+    "faction": "pirate",
+    "origin_arc": "Sabaody Archipelago",
+    "image_url": null,
+    "buffs": {
+      "intelligence": 25,
+      "medical_mastery": 30,
+      "spatial_manipulation": 25
+    },
+    "unlock_condition": {
+      "min_level": 22,
+      "required_quest": null,
+      "required_faction": null,
+      "min_bounty": 75000000
+    },
+    "abilities": [
+      "Room",
+      "Shambles",
+      "Gamma Knife"
+    ],
+    "bond_benefits": {
+      "1": {"surgical_precision": 10, "room_mastery": 5},
+      "2": {"surgical_precision": 15, "room_mastery": 10, "shambles": true},
+      "3": {"surgical_precision": 20, "room_mastery": 15, "counter_shock": true},
+      "4": {"surgical_precision": 25, "room_mastery": 20, "gamma_knife": true},
+      "5": {"surgical_precision": 30, "room_mastery": 25, "immortality_surgery": true}
+    },
+    "lore": "Law is the captain of the Heart Pirates and a former Warlord of the Sea. He seeks revenge against Doflamingo for destroying his homeland and killing his savior Corazon. His Op-Op Fruit is said to be the ultimate Devil Fruit."
+  }
+}

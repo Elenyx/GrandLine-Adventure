@@ -1,0 +1,367 @@
+{
+  "shells_town": {
+    "name": "Shells Town",
+    "description": "A Marine base town where justice and corruption intertwine.",
+    "emoji": "⚓",
+    "default_faction": "marine",
+    "starting_arc": "Romance Dawn",
+    "story_title": "The Tyrant's Fall",
+    "story_description": "Begin your journey as a Marine recruit under the corrupt Captain Morgan. Witness the darkness within the ranks of justice and decide whether to remain loyal to the system or forge your own path of righteousness.",
+    "key_npcs": [
+      {
+        "name": "Captain Morgan",
+        "role": "Corrupt Marine Officer",
+        "description": "A tyrannical Marine captain with an axe for a hand"
+      },
+      {
+        "name": "Koby",
+        "role": "Fellow Marine Recruit",
+        "description": "A kind-hearted boy aspiring to become a Marine Admiral"
+      },
+      {
+        "name": "Helmeppo",
+        "role": "Captain's Son",
+        "description": "Spoiled son of Captain Morgan who abuses his father's power"
+      }
+    ],
+    "starting_location": "shells_town",
+    "initial_quests": [
+      "The First Step",
+      "Defeat Captain Morgan",
+      "Find a Ship"
+    ],
+    "faction_alignment": {
+      "marine": 50,
+      "pirate": -25,
+      "revolutionary": -10,
+      "neutral": 0
+    },
+    "bonuses": {
+      "marine_rep": 10,
+      "starting_gold": 1200,
+      "combat_training": true
+    },
+    "traits": [
+      "Military discipline",
+      "Knowledge of Marine procedures",
+      "Conflict between justice and corruption",
+      "Access to Marine resources"
+    ],
+    "lore": "Shells Town is home to the 153rd Branch of the Marines, where young recruits come to begin their service to justice. However, under Captain Morgan's rule, the town has become a place of fear and oppression. The townspeople live in terror of the corrupt Marine officers, creating a perfect backdrop for questioning what true justice means."
+  },
+  "syrup_village": {
+    "name": "Syrup Village",
+    "description": "A peaceful village known for tall tales and the legacy of a brave warrior.",
+    "emoji": "🏴‍☠️",
+    "default_faction": "pirate",
+    "starting_arc": "Romance Dawn",
+    "story_title": "The Liar's Legacy",
+    "story_description": "Inspired by Usopp's legendary tales of adventure, you start your journey in this quiet village. When pirates threaten the peace, you must decide whether to stand and fight or flee to safety, all while seeking a ship and crew to begin your own grand adventure.",
+    "key_npcs": [
+      {
+        "name": "Usopp",
+        "role": "Village Storyteller",
+        "description": "A young man known for his tall tales and incredible marksmanship"
+      },
+      {
+        "name": "Kaya",
+        "role": "Wealthy Village Girl",
+        "description": "A kind but sickly girl who owns a large mansion"
+      },
+      {
+        "name": "Captain Kuro",
+        "role": "Hidden Threat",
+        "description": "A former pirate captain plotting in the shadows"
+      }
+    ],
+    "starting_location": "syrup_village",
+    "initial_quests": [
+      "The Liar's Legacy",
+      "Defend the Village",
+      "Usopp's Courage"
+    ],
+    "faction_alignment": {
+      "pirate": 30,
+      "marine": 10,
+      "revolutionary": 5,
+      "neutral": 20
+    },
+    "bonuses": {
+      "storytelling_skill": true,
+      "courage_training": true,
+      "marksmanship_bonus": 5
+    },
+    "traits": [
+      "Inspiration from tall tales",
+      "Courage in face of danger",
+      "Protective of innocent people",
+      "Natural storytelling ability"
+    ],
+    "lore": "Syrup Village is a small, peaceful community where the biggest excitement usually comes from Usopp's wild stories of adventure and pirates. The village represents the quiet life that many dream of protecting, making it a perfect starting point for those who wish to become protectors of the innocent or adventurers inspired by tales of the sea."
+  },
+  "ohara": {
+    "name": "Ohara",
+    "description": "The destroyed island of scholars, keeper of forbidden knowledge.",
+    "emoji": "📚",
+    "default_faction": "revolutionary",
+    "starting_arc": "Knowledge Seekers",
+    "story_title": "Whispers of Truth",
+    "story_description": "As a survivor of the Buster Call that destroyed Ohara, you carry the burden of forbidden knowledge. The World Government's atrocity has opened your eyes to the corruption of the system, drawing you toward the Revolutionary Army's cause of bringing down the oppressive regime.",
+    "key_npcs": [
+      {
+        "name": "Dr. Clover",
+        "role": "Scholar Spirit",
+        "description": "The ghost of the head archaeologist who died protecting knowledge"
+      },
+      {
+        "name": "Nico Robin",
+        "role": "Fellow Survivor",
+        "description": "The only other known survivor of Ohara's destruction"
+      },
+      {
+        "name": "Jaguar D. Saul",
+        "role": "Sympathetic Giant",
+        "description": "A Marine giant who questioned the World Government's actions"
+      }
+    ],
+    "starting_location": "ohara_ruins",
+    "initial_quests": [
+      "Whispers of Truth",
+      "The Forbidden Knowledge",
+      "Revolutionary Contact"
+    ],
+    "faction_alignment": {
+      "revolutionary": 40,
+      "marine": -30,
+      "pirate": 10,
+      "neutral": -5
+    },
+    "bonuses": {
+      "archaeological_knowledge": true,
+      "ponegliff_reading": 25,
+      "world_government_hatred": true,
+      "intelligence_bonus": 2
+    },
+    "traits": [
+      "Hatred of the World Government",
+      "Knowledge of ancient history",
+      "Survivor's determination",
+      "Revolutionary sympathies"
+    ],
+    "disadvantages": [
+      "Wanted by World Government",
+      "Traumatic memories",
+      "Difficulty trusting authority"
+    ],
+    "lore": "Ohara was once the world's greatest center of learning, home to scholars who sought to uncover the true history of the world. The World Government destroyed the island with a Buster Call to prevent the truth from spreading. Survivors of this tragedy carry both incredible knowledge and deep hatred for the system that committed this atrocity."
+  },
+  "baratie": {
+    "name": "Baratie",
+    "description": "The famous floating restaurant where fighting and cooking unite.",
+    "emoji": "🍽️",
+    "default_faction": "neutral",
+    "starting_arc": "Culinary Combat",
+    "story_title": "A Taste of the Grand Line",
+    "story_description": "Train as both a cook and fighter at the world-famous floating restaurant Baratie. Learn that feeding people and protecting them are equally important arts. Under the guidance of Red-Leg Zeff, discover the true meaning of hospitality and strength.",
+    "key_npcs": [
+      {
+        "name": "Red-Leg Zeff",
+        "role": "Head Chef",
+        "description": "Former pirate captain turned master chef with legendary kicking techniques"
+      },
+      {
+        "name": "Sanji",
+        "role": "Sous Chef",
+        "description": "A passionate cook who never wastes food and fights with his legs"
+      },
+      {
+        "name": "Patty",
+        "role": "Cook-Fighter",
+        "description": "One of the fighting cooks who protects the restaurant"
+      }
+    ],
+    "starting_location": "baratie",
+    "initial_quests": [
+      "A Taste of the Grand Line",
+      "Cooking Under Pressure",
+      "The Fighting Cook"
+    ],
+    "faction_alignment": {
+      "neutral": 30,
+      "pirate": 15,
+      "marine": 15,
+      "revolutionary": 5
+    },
+    "bonuses": {
+      "cooking_skill": true,
+      "kick_fighting": true,
+      "customer_service": true,
+      "food_appreciation": true
+    },
+    "traits": [
+      "Never waste food",
+      "Protect those who are hungry",
+      "Fighting cook techniques",
+      "Hospitality above all"
+    ],
+    "lore": "Baratie is a floating restaurant in the middle of the ocean, founded by Red-Leg Zeff, a former pirate. The restaurant serves anyone who can pay, regardless of whether they're pirates, Marines, or civilians. The cooks are all trained fighters who protect their establishment and uphold the belief that no one should go hungry."
+  },
+  "loguetown": {
+    "name": "Loguetown",
+    "description": "Where the Pirate King died and where dreams begin.",
+    "emoji": "💀",
+    "default_faction": "neutral",
+    "starting_arc": "Dreams at Dawn",
+    "story_title": "Dreams at Dawn",
+    "story_description": "In the town where Gold Roger was executed and the Great Age of Pirates began, you must choose your path. Will you follow in his footsteps seeking One Piece, uphold justice as a Marine, fight for revolution, or forge an entirely new destiny?",
+    "key_npcs": [
+      {
+        "name": "Captain Smoker",
+        "role": "Marine Captain",
+        "description": "A Marine captain who has never let a pirate escape"
+      },
+      {
+        "name": "Tashigi",
+        "role": "Marine Swordswoman",
+        "description": "A sword-collecting Marine who believes in justice"
+      },
+      {
+        "name": "Bartolomeo",
+        "role": "Local Gangster",
+        "description": "A troublemaker who idolizes certain pirates"
+      }
+    ],
+    "starting_location": "loguetown",
+    "initial_quests": [
+      "Dreams at Dawn",
+      "The Execution Platform",
+      "Choose Your Path"
+    ],
+    "faction_alignment": {
+      "pirate": 25,
+      "marine": 25,
+      "revolutionary": 15,
+      "neutral": 10
+    },
+    "bonuses": {
+      "inspiration": true,
+      "dream_clarity": true,
+      "historical_knowledge": true,
+      "balanced_perspective": true
+    },
+    "special_feature": "faction_choice",
+    "traits": [
+      "Witness to history",
+      "Inspiration from Roger's legacy",
+      "Understanding of different perspectives",
+      "Gateway to the Grand Line"
+    ],
+    "lore": "Loguetown is known as the 'Town of the Beginning and the End' because it's where Gol D. Roger was born and executed. His final words sparked the Great Age of Pirates, making this town a symbol of dreams and adventure. Many aspiring pirates visit the execution platform before entering the Grand Line."
+  },
+  "skypiea": {
+    "name": "Skypiea",
+    "description": "A mystical island floating high above the clouds.",
+    "emoji": "☁️",
+    "default_faction": "neutral",
+    "starting_arc": "Sky Island",
+    "story_title": "The Sky's Burden",
+    "story_description": "Born on a sky island 10,000 meters above the sea, you must navigate the ancient conflicts between Skypieans and Shandians while exploring the mysteries of the sky people. The Upper Yard holds many secrets, and the sacred Vearth carries the weight of history.",
+    "key_npcs": [
+      {
+        "name": "Gan Fall",
+        "role": "Former Sky Knight",
+        "description": "The previous God of Skypiea who rides a bird named Pierre"
+      },
+      {
+        "name": "Wyper",
+        "role": "Shandian Warrior",
+        "description": "A fierce warrior fighting to reclaim his ancestor's land"
+      },
+      {
+        "name": "Conis",
+        "role": "Skypiean Girl",
+        "description": "A kind sky islander who plays the harp"
+      }
+    ],
+    "starting_location": "skypiea",
+    "initial_quests": [
+      "The Sky's Burden",
+      "Conflict in the Clouds",
+      "Sacred Vearth"
+    ],
+    "faction_alignment": {
+      "neutral": 40,
+      "pirate": 5,
+      "marine": 5,
+      "revolutionary": 10
+    },
+    "bonuses": {
+      "dial_technology": true,
+      "cloud_navigation": true,
+      "ancient_knowledge": true,
+      "peaceful_nature": true
+    },
+    "traits": [
+      "Master of dial technology",
+      "Spiritual connection to sky",
+      "Understanding of ancient history",
+      "Peaceful conflict resolution"
+    ],
+    "lore": "Skypiea is a sky island located 10,000 meters above Jaya. The Skypieans are a peaceful people who worship Vearth (earth/soil) as it's extremely rare in the sky. They have been in conflict with the Shandians over the Upper Yard for 400 years, stemming from a misunderstanding about the sacred land."
+  },
+  "elbaf": {
+    "name": "Elbaf",
+    "description": "The legendary island of giants and mighty warriors.",
+    "emoji": "🏔️",
+    "default_faction": "neutral",
+    "starting_arc": "Giant Warrior",
+    "story_title": "Pride of the Warriors",
+    "story_description": "Born among the giants of Elbaf, the strongest country in the world, you must prove yourself worthy in trials of honor and combat. Only by mastering the ways of the warrior and understanding the giant's code of honor can you leave your homeland to sail the lower seas.",
+    "key_npcs": [
+      {
+        "name": "Dorry",
+        "role": "Giant Warrior",
+        "description": "One of two legendary giant captains locked in eternal combat"
+      },
+      {
+        "name": "Brogy",
+        "role": "Giant Warrior",
+        "description": "The other legendary giant captain, Dorry's rival and friend"
+      },
+      {
+        "name": "Elder Giant",
+        "role": "Elbaf Elder",
+        "description": "An ancient giant who remembers the old ways"
+      }
+    ],
+    "starting_location": "elbaf",
+    "initial_quests": [
+      "Pride of the Warriors",
+      "Trial of Honor",
+      "The Giant's Journey"
+    ],
+    "faction_alignment": {
+      "neutral": 30,
+      "marine": 20,
+      "pirate": 15,
+      "revolutionary": 5
+    },
+    "bonuses": {
+      "giant_strength": true,
+      "warrior_honor": true,
+      "combat_mastery": true,
+      "longevity": true
+    },
+    "unlock_requirements": {
+      "race": "giant",
+      "special_quest": "giant_heritage"
+    },
+    "traits": [
+      "Warrior's code of honor",
+      "Incredible physical strength",
+      "300+ year lifespan",
+      "Respected across all seas"
+    ],
+    "lore": "Elbaf is known as the strongest country in the world, home to a proud race of giants. The giants follow a warrior culture where honor is more important than life itself. Many giants become famous pirates or Marines, respected for their strength and noble nature. The island is filled with massive trees and ancient traditions."
+  }
+}

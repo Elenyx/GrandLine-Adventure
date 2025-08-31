@@ -1,0 +1,376 @@
+{
+  "greatest_swordsman": {
+    "name": "World's Greatest Swordsman",
+    "description": "Become the most skilled swordsman in the world, surpassing even Dracule Mihawk.",
+    "emoji": "⚔️",
+    "category": "combat",
+    "difficulty": "legendary",
+    "starting_benefits": {
+      "equipment": ["katana"],
+      "skills": ["swordsman_tree"],
+      "bonuses": {
+        "sword_damage": 0.1,
+        "parry_chance": 0.05
+      },
+      "stats": {
+        "strength": 1,
+        "agility": 1
+      }
+    },
+    "skill_tree": "swordsman",
+    "unique_quests": [
+      "duel_with_mihawk",
+      "sword_master_trials",
+      "legendary_blade_hunt"
+    ],
+    "lore": "The path of the sword is one of dedication and endless training. Only through countless battles and unwavering determination can one hope to claim the title of World's Greatest Swordsman. This dream was famously pursued by Roronoa Zoro, who swore to never lose again after his childhood friend Kuina's death.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Apprentice Swordsman",
+        "reward": "basic_sword_techniques"
+      },
+      {
+        "level": 25,
+        "title": "Skilled Duelist",
+        "reward": "advanced_sword_techniques"
+      },
+      {
+        "level": 50,
+        "title": "Master Swordsman",
+        "reward": "legendary_sword_techniques"
+      },
+      {
+        "level": 75,
+        "title": "Sword Saint",
+        "reward": "three_sword_style"
+      },
+      {
+        "level": 100,
+        "title": "World's Greatest Swordsman",
+        "reward": "ultimate_sword_mastery"
+      }
+    ]
+  },
+  "all_blue": {
+    "name": "Find the All Blue",
+    "description": "Discover the legendary sea where all four blues meet, containing every fish in the world.",
+    "emoji": "🌊",
+    "category": "exploration",
+    "difficulty": "legendary",
+    "starting_benefits": {
+      "equipment": ["cooking_knife", "fishing_rod"],
+      "skills": ["cook_tree"],
+      "bonuses": {
+        "cooking_efficiency": 0.15,
+        "food_quality": 0.1
+      },
+      "stats": {
+        "intelligence": 1,
+        "durability": 1
+      }
+    },
+    "skill_tree": "cook",
+    "unique_quests": [
+      "find_rare_ingredients",
+      "cook_for_the_sea_kings",
+      "all_blue_expedition"
+    ],
+    "lore": "The All Blue is a legendary sea that exists somewhere in the world where the North, South, East, and West Blues meet. It's said to contain every species of fish in the world. This dream belongs to Sanji, who learned about it from his mentor Red-Leg Zeff.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Apprentice Cook",
+        "reward": "basic_recipes"
+      },
+      {
+        "level": 25,
+        "title": "Skilled Chef",
+        "reward": "advanced_recipes"
+      },
+      {
+        "level": 50,
+        "title": "Master Chef",
+        "reward": "legendary_recipes"
+      },
+      {
+        "level": 75,
+        "title": "Sea's Greatest Cook",
+        "reward": "all_blue_cuisine"
+      },
+      {
+        "level": 100,
+        "title": "All Blue Navigator",
+        "reward": "discovery_of_all_blue"
+      }
+    ]
+  },
+  "map_world": {
+    "name": "Map the World",
+    "description": "Chart every island, sea, and secret location across the entire world.",
+    "emoji": "🗺️",
+    "category": "exploration",
+    "difficulty": "epic",
+    "starting_benefits": {
+      "equipment": ["log_pose", "navigation_tools"],
+      "skills": ["navigator_tree"],
+      "bonuses": {
+        "travel_speed": 0.2,
+        "discovery_rate": 0.15
+      },
+      "stats": {
+        "intelligence": 2
+      }
+    },
+    "skill_tree": "navigator",
+    "unique_quests": [
+      "chart_the_grand_line",
+      "weather_prediction_mastery",
+      "find_hidden_islands"
+    ],
+    "lore": "Creating a complete map of the world is an ambitious dream that requires incredible navigation skills and bravery. Navigators must understand weather patterns, ocean currents, and magnetic fields. This dream is similar to Nami's goal of drawing a map of the entire world.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Apprentice Navigator",
+        "reward": "basic_navigation"
+      },
+      {
+        "level": 25,
+        "title": "Skilled Cartographer",
+        "reward": "advanced_mapping"
+      },
+      {
+        "level": 50,
+        "title": "Master Navigator",
+        "reward": "weather_control"
+      },
+      {
+        "level": 75,
+        "title": "World Mapper",
+        "reward": "grand_line_mastery"
+      },
+      {
+        "level": 100,
+        "title": "Greatest Navigator",
+        "reward": "complete_world_map"
+      }
+    ]
+  },
+  "brave_warrior": {
+    "name": "Brave Warrior of the Sea",
+    "description": "Become an unbeatable fighter who never backs down from any challenge.",
+    "emoji": "⚔️",
+    "category": "combat",
+    "difficulty": "hard",
+    "starting_benefits": {
+      "equipment": ["warrior_gloves", "training_weights"],
+      "skills": ["brawler_tree", "marksman_tree"],
+      "bonuses": {
+        "hp_bonus": 0.2,
+        "courage_boost": 0.1
+      },
+      "stats": {
+        "strength": 1,
+        "durability": 2
+      }
+    },
+    "skill_tree": "warrior",
+    "unique_quests": [
+      "island_of_warriors",
+      "never_retreat_challenge",
+      "protect_the_innocent"
+    ],
+    "lore": "The path of the brave warrior is about more than just strength - it's about protecting those who cannot protect themselves and never backing down from what's right. This dream embodies the spirit of Usopp's desire to become a brave warrior of the sea.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Aspiring Warrior",
+        "reward": "courage_techniques"
+      },
+      {
+        "level": 25,
+        "title": "Steady Fighter",
+        "reward": "defensive_mastery"
+      },
+      {
+        "level": 50,
+        "title": "Brave Defender",
+        "reward": "protection_abilities"
+      },
+      {
+        "level": 75,
+        "title": "Fearless Warrior",
+        "reward": "ultimate_courage"
+      },
+      {
+        "level": 100,
+        "title": "Legendary Protector",
+        "reward": "warrior_of_the_sea"
+      }
+    ]
+  },
+  "devil_fruit_master": {
+    "name": "Master Devil Fruits",
+    "description": "Understand the mysteries and powers of the legendary Devil Fruits.",
+    "emoji": "🍎",
+    "category": "research",
+    "difficulty": "epic",
+    "starting_benefits": {
+      "equipment": ["devil_fruit_encyclopedia", "research_tools"],
+      "skills": ["fruit_research_tree"],
+      "bonuses": {
+        "fruit_discovery": 0.25,
+        "power_understanding": 0.15
+      },
+      "stats": {
+        "intelligence": 2,
+        "agility": 1
+      }
+    },
+    "skill_tree": "devil_fruit_researcher",
+    "unique_quests": [
+      "devil_fruit_hunt",
+      "artificial_fruit_research",
+      "awaken_devil_fruit"
+    ],
+    "lore": "Devil Fruits are mysterious fruits that grant incredible powers at the cost of the ability to swim. Understanding their origins, types, and awakening potential is a dream that could unlock the secrets of the world itself. Dr. Vegapunk is the leading researcher in this field.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Fruit Enthusiast",
+        "reward": "basic_fruit_knowledge"
+      },
+      {
+        "level": 25,
+        "title": "Devil Fruit Scholar",
+        "reward": "advanced_fruit_theory"
+      },
+      {
+        "level": 50,
+        "title": "Power Researcher",
+        "reward": "fruit_awakening_knowledge"
+      },
+      {
+        "level": 75,
+        "title": "Fruit Master",
+        "reward": "artificial_fruit_creation"
+      },
+      {
+        "level": 100,
+        "title": "Devil Fruit Sage",
+        "reward": "ultimate_fruit_mastery"
+      }
+    ]
+  },
+  "topple_government": {
+    "name": "Topple the World Government",
+    "description": "Bring down the corrupt World Government and create a better world.",
+    "emoji": "✊",
+    "category": "revolution",
+    "difficulty": "legendary",
+    "starting_benefits": {
+      "equipment": ["revolutionary_manifesto", "disguise_kit"],
+      "skills": ["revolutionary_tree"],
+      "bonuses": {
+        "stealth": 0.15,
+        "rally_effectiveness": 0.2
+      },
+      "stats": {
+        "intelligence": 1,
+        "agility": 1,
+        "strength": 1
+      }
+    },
+    "skill_tree": "revolutionary",
+    "unique_quests": [
+      "revolutionary_recruitment",
+      "expose_government_corruption",
+      "final_revolution"
+    ],
+    "lore": "The World Government maintains control through fear and oppression. Those who dream of toppling it seek to create a world where people can live freely without tyranny. Monkey D. Dragon leads the Revolutionary Army in this noble cause.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Freedom Fighter",
+        "reward": "guerrilla_tactics"
+      },
+      {
+        "level": 25,
+        "title": "Revolutionary Agent",
+        "reward": "sabotage_techniques"
+      },
+      {
+        "level": 50,
+        "title": "Liberation Leader",
+        "reward": "mass_rally_ability"
+      },
+      {
+        "level": 75,
+        "title": "Voice of Freedom",
+        "reward": "government_infiltration"
+      },
+      {
+        "level": 100,
+        "title": "World Liberator",
+        "reward": "new_world_order"
+      }
+    ]
+  },
+  "pirate_king": {
+    "name": "Become the Pirate King",
+    "description": "Find the legendary treasure One Piece and become the freest person on the seas.",
+    "emoji": "👑",
+    "category": "adventure",
+    "difficulty": "legendary",
+    "starting_benefits": {
+      "equipment": ["straw_hat", "treasure_map"],
+      "skills": ["leadership_tree", "adventure_tree"],
+      "bonuses": {
+        "crew_loyalty": 0.2,
+        "treasure_finding": 0.15,
+        "leadership": 0.1
+      },
+      "stats": {
+        "strength": 1,
+        "agility": 1,
+        "durability": 1,
+        "intelligence": 1
+      }
+    },
+    "skill_tree": "pirate_king",
+    "unique_quests": [
+      "gather_road_poneglyphs",
+      "reach_raftel",
+      "claim_one_piece"
+    ],
+    "lore": "The Pirate King is the title given to the person who conquers the Grand Line and finds the legendary treasure One Piece. Gol D. Roger was the first and only Pirate King, and his execution sparked the Great Age of Pirates. Monkey D. Luffy carries on this dream.",
+    "milestones": [
+      {
+        "level": 10,
+        "title": "Rookie Pirate",
+        "reward": "crew_recruitment"
+      },
+      {
+        "level": 25,
+        "title": "Notorious Captain",
+        "reward": "grand_line_entry"
+      },
+      {
+        "level": 50,
+        "title": "Supernova",
+        "reward": "new_world_access"
+      },
+      {
+        "level": 75,
+        "title": "Yonko Challenger",
+        "reward": "emperor_recognition"
+      },
+      {
+        "level": 100,
+        "title": "Pirate King",
+        "reward": "one_piece_discovery"
+      }
+    ]
+  }
+}

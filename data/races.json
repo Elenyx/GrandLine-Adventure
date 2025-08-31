@@ -1,0 +1,258 @@
+{
+  "human": {
+    "name": "Human",
+    "description": "The adaptable majority of the world, capable of great achievements through determination and willpower.",
+    "emoji": "👤",
+    "stats": {
+      "strength": 1,
+      "agility": 1,
+      "durability": 1,
+      "intelligence": 1
+    },
+    "abilities": [
+      {
+        "name": "Adaptability",
+        "description": "Humans learn 10% faster than other races",
+        "effect": "experience_bonus",
+        "value": 0.1
+      }
+    ],
+    "traits": [
+      "Flexible storylines",
+      "Can join any faction without penalties",
+      "Balanced growth potential",
+      "Strong willpower"
+    ],
+    "starting_equipment": [
+      "basic_clothes",
+      "wooden_sword"
+    ],
+    "lore": "Humans are the most numerous race in the One Piece world. While they may not have the natural physical advantages of other races, their adaptability and determination have allowed them to achieve great things. From the Pirate King Gol D. Roger to the World's Strongest Man Whitebeard, humans have proven time and again that with enough will, anyone can reach the top."
+  },
+  "fishman": {
+    "name": "Fish-Man / Mermaid",
+    "description": "Aquatic beings with incredible strength and the ability to breathe underwater.",
+    "emoji": "🐟",
+    "stats": {
+      "strength": 2,
+      "agility": 0,
+      "durability": 1,
+      "intelligence": 0
+    },
+    "abilities": [
+      {
+        "name": "Water Breathing",
+        "description": "No penalties when fighting underwater",
+        "effect": "environmental_immunity",
+        "value": "underwater"
+      },
+      {
+        "name": "Fish-Man Karate",
+        "description": "Special martial arts that manipulate water",
+        "effect": "special_attack",
+        "value": "fishman_karate"
+      },
+      {
+        "name": "Aquatic Supremacy",
+        "description": "10x stronger than humans underwater",
+        "effect": "conditional_strength",
+        "value": 10
+      }
+    ],
+    "traits": [
+      "Natural swimmers",
+      "Access to underwater locations",
+      "Discrimination from some humans",
+      "Strong sense of community"
+    ],
+    "starting_equipment": [
+      "seaweed_wraps",
+      "coral_spear"
+    ],
+    "lore": "Fish-Men and Mermaids are the proud inhabitants of Fish-Man Island. Despite facing discrimination from some humans, they possess incredible physical strength and unique abilities. Fish-Man Karate allows them to manipulate water itself as a weapon, making them formidable opponents both in and out of water. Many Fish-Men struggle with the choice between hatred and coexistence with humanity."
+  },
+  "mink": {
+    "name": "Mink",
+    "description": "Anthropomorphic animal warriors with the natural ability to generate electricity.",
+    "emoji": "🐺",
+    "stats": {
+      "strength": 1,
+      "agility": 2,
+      "durability": 0,
+      "intelligence": 0
+    },
+    "abilities": [
+      {
+        "name": "Electro",
+        "description": "Basic lightning attack with stun chance",
+        "effect": "special_attack",
+        "value": "electro"
+      },
+      {
+        "name": "Sulong Form",
+        "description": "Massive power boost during full moon events",
+        "effect": "transformation",
+        "value": "sulong"
+      },
+      {
+        "name": "Natural Fighter",
+        "description": "Born warriors with combat instincts",
+        "effect": "combat_bonus",
+        "value": 0.15
+      }
+    ],
+    "traits": [
+      "Loyalty and honor-bound",
+      "Incredible speed and agility",
+      "Strong tribal culture",
+      "Natural warriors from birth"
+    ],
+    "starting_equipment": [
+      "tribal_clothes",
+      "claw_gauntlets"
+    ],
+    "special_events": [
+      "full_moon_sulong"
+    ],
+    "lore": "The Mink Tribe are a race of humanoid animals living on the moving island of Zou. They are a warrior race, naturally born fighters who can generate electricity called 'Electro.' During full moons, they can transform into their Sulong form, gaining incredible power at the cost of losing control. Minks value loyalty above all else and will fight to the death for their friends."
+  },
+  "skypiean": {
+    "name": "Skypiean",
+    "description": "Inhabitants of the sky islands with angel-like wings and mastery of dial technology.",
+    "emoji": "☁️",
+    "stats": {
+      "strength": 0,
+      "agility": 1,
+      "durability": 0,
+      "intelligence": 2
+    },
+    "abilities": [
+      {
+        "name": "Sky-Dweller",
+        "description": "Reduced fall damage and aerial movement",
+        "effect": "environmental_resistance",
+        "value": "fall_damage"
+      },
+      {
+        "name": "Dial Mastery",
+        "description": "Can use and craft various dial types",
+        "effect": "crafting_bonus",
+        "value": "dials"
+      },
+      {
+        "name": "Cloud Walking",
+        "description": "Can walk on clouds and navigate sky islands",
+        "effect": "special_movement",
+        "value": "cloud_walk"
+      }
+    ],
+    "traits": [
+      "Peaceful and spiritual",
+      "Masters of unique technology",
+      "Connection to ancient history",
+      "Winged appearance"
+    ],
+    "starting_equipment": [
+      "sky_island_robes",
+      "impact_dial",
+      "wind_dial"
+    ],
+    "lore": "Skypieans are the inhabitants of various sky islands located 10,000 meters above the sea. They have small wings on their backs and are generally peaceful people who have developed unique dial technology. Their culture revolves around the worship of 'Vearth' (earth/soil) as it's extremely rare in the sky. They have a complex history with the Shandians and often struggle with conflicts over sacred land."
+  },
+  "giant": {
+    "name": "Giant",
+    "description": "Massive humanoid beings with incredible physical strength and proud warrior traditions.",
+    "emoji": "🏔️",
+    "stats": {
+      "strength": 4,
+      "agility": -2,
+      "durability": 2,
+      "intelligence": 0
+    },
+    "abilities": [
+      {
+        "name": "Giant's Strength",
+        "description": "Can wield oversized weapons and has incredible power",
+        "effect": "weapon_size_bonus",
+        "value": 2
+      },
+      {
+        "name": "Intimidating Presence",
+        "description": "Smaller enemies may flee in fear",
+        "effect": "intimidation",
+        "value": 0.25
+      },
+      {
+        "name": "Knockback Resistance",
+        "description": "Extremely difficult to move or knock down",
+        "effect": "status_resistance",
+        "value": "knockback"
+      }
+    ],
+    "traits": [
+      "Honor-bound warriors",
+      "Incredible lifespan (300+ years)",
+      "Cannot use stealth effectively",
+      "Respected across the seas"
+    ],
+    "starting_equipment": [
+      "giant_armor",
+      "massive_axe",
+      "war_horn"
+    ],
+    "disadvantages": [
+      "Cannot hide or use stealth",
+      "Larger target in combat",
+      "Difficult to find appropriately sized equipment"
+    ],
+    "lore": "Giants are a proud warrior race from Elbaf, the strongest country in the world. They live by a code of honor and settle disputes through combat. Giants can live for over 300 years and are respected throughout the world for their strength and noble nature. Many giants serve in the Marines as powerful combatants, while others become legendary pirates."
+  },
+  "cyborg": {
+    "name": "Cyborg",
+    "description": "Mechanically enhanced beings with artificial body parts and technological capabilities.",
+    "emoji": "🤖",
+    "stats": {
+      "strength": 2,
+      "agility": 0,
+      "durability": 3,
+      "intelligence": 0
+    },
+    "abilities": [
+      {
+        "name": "Mechanical Upgrades",
+        "description": "Can install custom modules and enhancements",
+        "effect": "customization",
+        "value": "mechanical_mods"
+      },
+      {
+        "name": "Self-Repair",
+        "description": "Repairs damage over time instead of natural healing",
+        "effect": "healing_type",
+        "value": "mechanical"
+      },
+      {
+        "name": "Energy Weapons",
+        "description": "Can fire laser beams and energy attacks",
+        "effect": "special_attack",
+        "value": "laser"
+      }
+    ],
+    "traits": [
+      "Immune to most poisons and diseases",
+      "Requires fuel instead of food",
+      "Can be upgraded and modified",
+      "Vulnerable to electromagnetic interference"
+    ],
+    "starting_equipment": [
+      "basic_plating",
+      "laser_cannon",
+      "repair_kit"
+    ],
+    "unlock_requirements": {
+      "story_progress": "cyborg_storyline",
+      "min_level": 10,
+      "special_quest": "mechanical_transformation"
+    },
+    "lore": "Cyborgs are rare individuals who have replaced parts of their bodies with mechanical components. This transformation is usually done out of necessity after severe injury, or by choice to gain power. Cyborgs must maintain their mechanical parts and can be upgraded with new technology. The most famous cyborg is Franky of the Straw Hat Pirates, who rebuilt himself with scrap metal and cola-powered systems."
+  }
+}
