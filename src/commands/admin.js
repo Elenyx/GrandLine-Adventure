@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js');
-const { TextDisplayBuilder, SectionBuilder, ContainerBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, TextDisplayBuilder, SectionBuilder, ContainerBuilder } = require('discord.js');
 const { getErrorLogChannel, setErrorLogChannel, getAllMappings } = require('../utils/errorLogStore');
 const Player = require('../database/models/Player');
 const Quest = require('../database/models/Quest');
@@ -153,35 +152,54 @@ module.exports = {
 
 
 async function handleBotStats(interaction) {
-    // Get database statistics
-    const playerStats = await query('SELECT COUNT(*) as total, AVG(level) as avg_level FROM players WHERE guild_id = $1', [interaction.guild.id]);
-    const crewStats = await query('SELECT COUNT(*) as total, AVG(bounty) as avg_bounty FROM crews c JOIN players p ON c.captain_id = p.id WHERE p.guild_id = $1', [interaction.guild.id]);
-    const questStats = await query('SELECT COUNT(*) as total FROM player_quests pq JOIN players p ON pq.player_id = p.id WHERE p.guild_id = $1', [interaction.guild.id]);
-    
-    const totalPlayers = parseInt(playerStats.rows[0].total);
-    const avgLevel = parseFloat(playerStats.rows[0].avg_level) || 0;
-    const totalCrews = parseInt(crewStats.rows[0].total);
-    const avgBounty = parseFloat(crewStats.rows[0].avg_bounty) || 0;
-    const totalQuests = parseInt(questStats.rows[0].total);
+    // Defensive: ensure this is used in a guild context
+    if (!interaction.guild) {
+        await interaction.reply({ content: 'This command must be used in a server (guild).', ephemeral: true });
+        return;
+    }
 
-    // Get top player
-    const topPlayer = await query(`
-        SELECT character_name, level, bounty 
-        FROM players 
-        WHERE guild_id = $1 
-        ORDER BY level DESC, bounty DESC 
-        LIMIT 1
-    `, [interaction.guild.id]);
+    // Get database statistics (wrapped in try/catch so failures surface gracefully)
+    let playerStats, crewStats, questStats, topPlayer, topCrew;
+    try {
+        playerStats = await query('SELECT COUNT(*) as total, AVG(level) as avg_level FROM players WHERE guild_id = $1', [interaction.guild.id]);
+        crewStats = await query('SELECT COUNT(*) as total, AVG(bounty) as avg_bounty FROM crews c JOIN players p ON c.captain_id = p.id WHERE p.guild_id = $1', [interaction.guild.id]);
+        questStats = await query('SELECT COUNT(*) as total FROM player_quests pq JOIN players p ON pq.player_id = p.id WHERE p.guild_id = $1', [interaction.guild.id]);
 
-    // Get top crew
-    const topCrew = await query(`
-        SELECT c.name, c.bounty, p.character_name as captain_name
-        FROM crews c 
-        JOIN players p ON c.captain_id = p.id 
-        WHERE p.guild_id = $1 
-        ORDER BY c.bounty DESC 
-        LIMIT 1
-    `, [interaction.guild.id]);
+        // Get top player
+        topPlayer = await query(`
+            SELECT character_name, level, bounty 
+            FROM players 
+            WHERE guild_id = $1 
+            ORDER BY level DESC, bounty DESC 
+            LIMIT 1
+        `, [interaction.guild.id]);
+
+        // Get top crew
+        topCrew = await query(`
+            SELECT c.name, c.bounty, p.character_name as captain_name
+            FROM crews c 
+            JOIN players p ON c.captain_id = p.id 
+            WHERE p.guild_id = $1 
+            ORDER BY c.bounty DESC 
+            LIMIT 1
+        `, [interaction.guild.id]);
+    } catch (err) {
+        console.error('Error fetching admin stats:', err);
+        const errDisplay = new TextDisplayBuilder().setContent('❌ Failed to fetch statistics from the database.');
+        // Prefer reply if not already replied
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({ components: [errDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true });
+        } else {
+            await interaction.reply({ components: [errDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true });
+        }
+        return;
+    }
+
+    const totalPlayers = parseInt((playerStats && playerStats.rows && playerStats.rows[0] && playerStats.rows[0].total) || 0);
+    const avgLevel = parseFloat((playerStats && playerStats.rows && playerStats.rows[0] && playerStats.rows[0].avg_level) || 0) || 0;
+    const totalCrews = parseInt((crewStats && crewStats.rows && crewStats.rows[0] && crewStats.rows[0].total) || 0);
+    const avgBounty = parseFloat((crewStats && crewStats.rows && crewStats.rows[0] && crewStats.rows[0].avg_bounty) || 0) || 0;
+    const totalQuests = parseInt((questStats && questStats.rows && questStats.rows[0] && questStats.rows[0].total) || 0);
 
     const statsContainer = new ContainerBuilder()
         .setAccentColor(COLORS.INFO)
