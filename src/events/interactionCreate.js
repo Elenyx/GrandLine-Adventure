@@ -1,5 +1,6 @@
 const { Events, MessageFlags } = require('discord.js');
 const { TextDisplayBuilder } = require('discord.js');
+const { reportError } = require('../utils/errorReporter');
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -19,6 +20,24 @@ module.exports = {
                     console.log(`[COMMAND] ${interaction.user.tag} in #${interaction.channel.name} triggered /${interaction.commandName}`);
                 } catch (error) {
                     console.error(`[ERROR] Error executing /${interaction.commandName}:`, error);
+                    // Try to report to configured error channel for this guild
+                    try {
+                        await reportError({
+                            client: interaction.client,
+                            guildId: interaction.guild?.id,
+                            error,
+                            context: `Command: /${interaction.commandName}`,
+                            metadata: {
+                                userTag: interaction.user.tag,
+                                userId: interaction.user.id,
+                                channelId: interaction.channel?.id,
+                                channelName: interaction.channel?.name
+                            }
+                        });
+                    } catch (reportErr) {
+                        console.error('Error reporting failure:', reportErr);
+                    }
+
                     const errorDisplay = new TextDisplayBuilder().setContent('❌ There was an error while executing this command!');
                     const reply = { components: [errorDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true };
 
@@ -57,6 +76,23 @@ module.exports = {
                         console.log(`[COMPONENT] ${interaction.user.tag} in #${interaction.channel.name} triggered ${interaction.customId}`);
                     } catch (error) {
                         console.error(`[ERROR] Error handling component ${interaction.customId}:`, error);
+                        try {
+                            await reportError({
+                                client: interaction.client,
+                                guildId: interaction.guild?.id,
+                                error,
+                                context: `Component: ${interaction.customId}`,
+                                metadata: {
+                                    userTag: interaction.user.tag,
+                                    userId: interaction.user.id,
+                                    channelId: interaction.channel?.id,
+                                    channelName: interaction.channel?.name
+                                }
+                            });
+                        } catch (reportErr) {
+                            console.error('Error reporting failure:', reportErr);
+                        }
+
                         const errorDisplay = new TextDisplayBuilder().setContent('❌ There was an error responding to this interaction!');
                         const reply = { components: [errorDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true };
                         if (!interaction.replied && !interaction.deferred) {

@@ -91,10 +91,7 @@ module.exports = {
             .setDescription('Set or change the error log channel for this server')
             .addChannelOption(opt => opt.setName('channel').setDescription('Channel to receive error logs').setRequired(true))
         )
-        .addSubcommand(sub => sub
-            .setName('show-error-logs')
-            .setDescription('Show configured error log channels for all servers')
-        ),
+    ,
 
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -131,13 +128,7 @@ module.exports = {
                         }
                     }
                     break;
-                case 'show-error-logs':
-                    {
-                        const mappings = getAllMappings();
-                        const lines = Object.entries(mappings).map(([g, c]) => `${g} -> ${c}`);
-                        await interaction.reply({ content: lines.length ? lines.join('\n') : 'No error log channels configured.', ephemeral: true });
-                    }
-                    break;
+                
                 default:
                     await interaction.reply({
                         content: 'Unknown admin command.',
