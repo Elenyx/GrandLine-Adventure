@@ -99,13 +99,6 @@ class Quest {
             player.origin
         ]);
 
-        // Debug logging to help diagnose why quests might be empty
-        try {
-            console.log(`[QUEST] getAvailableQuests for playerId=${player.id} level=${player.level} location=${player.location} faction=${player.faction} race=${player.race} origin=${player.origin} -> rows=${result.rowCount}`);
-        } catch (e) {
-            // swallow any logging errors
-        }
-
         return result.rows.map(row => {
             const quest = new Quest(row);
             quest.requirements = typeof quest.requirements === 'string' 
@@ -144,19 +137,7 @@ class Quest {
         });
     }
 
-    static async findAll() {
-        const result = await query('SELECT * FROM quests ORDER BY id');
-        return result.rows.map(row => {
-            const quest = new Quest(row);
-            quest.requirements = typeof quest.requirements === 'string'
-                ? JSON.parse(quest.requirements)
-                : quest.requirements;
-            quest.rewards = typeof quest.rewards === 'string'
-                ? JSON.parse(quest.rewards)
-                : quest.rewards;
-            return quest;
-        });
-    }
+    // Removed findAll fallback — rely on proper filtering and DB data
 
     canPlayerAccept(player) {
         // Check level requirements

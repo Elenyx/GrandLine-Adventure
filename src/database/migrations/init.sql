@@ -180,10 +180,10 @@ CREATE INDEX idx_player_allies_active ON player_allies(is_active);
 -- Insert some initial quest data
 INSERT INTO quests (name, description, arc, requirements, rewards, difficulty, min_level, location, is_main_story) VALUES
 ('The First Step', 'Begin your journey as a pirate by choosing your path and meeting your first ally.', 'Romance Dawn', '{}', '{"experience": 100, "gold": 500}', 1, 1, 'shells_town', true),
-('Defeat Captain Morgan', 'Face the corrupt Marine Captain Morgan and free the town from his tyranny.', 'Romance Dawn', '{"defeat_enemies": 1}', '{"experience": 200, "gold": 1000, "bounty": 5000000}', 2, 2, 'shells_town', true),
-('Find a Ship', 'Acquire your first vessel to sail the Grand Line.', 'Romance Dawn', '{"complete_tasks": 3}', '{"experience": 150, "ship": "small_boat"}', 1, 3, 'shells_town', true),
+('Defeat Captain Morgan', 'Face the corrupt Marine Captain Morgan and free the town from his tyranny.', 'Romance Dawn', '{}', '{"experience": 200, "gold": 1000, "bounty": 5000000}', 2, 2, 'shells_town', true),
+('Find a Ship', 'Acquire your first vessel to sail the Grand Line.', 'Romance Dawn', '{}', '{"experience": 150, "ship": "small_boat"}', 1, 3, 'shells_town', true),
 ('Orange Town Arrival', 'Arrive at Orange Town and investigate the strange happenings.', 'Orange Town', '{}', '{"experience": 100, "gold": 300}', 1, 4, 'orange_town', true),
-('Buggy the Clown', 'Confront the notorious pirate Buggy and his crew terrorizing Orange Town.', 'Orange Town', '{"defeat_enemies": 3}', '{"experience": 300, "gold": 2000, "bounty": 10000000}', 3, 5, 'orange_town', true);
+('Buggy the Clown', 'Confront the notorious pirate Buggy and his crew terrorizing Orange Town.', 'Orange Town', '{}', '{"experience": 300, "gold": 2000, "bounty": 10000000}', 3, 5, 'orange_town', true);
 
 -- Insert some initial ally data
 INSERT INTO allies (name, description, rarity, buffs, unlock_condition, faction, origin_arc) VALUES

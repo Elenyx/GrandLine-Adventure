@@ -38,39 +38,12 @@ describe('Quest filtering', () => {
         expect(results[0].name).toBe('Test Quest');
     });
 
-    test('findAll returns all quests and is used by calling code as a fallback', async () => {
-        // Simulate getAvailableQuests returning empty rows
+    test('getAvailableQuests returns empty array when no rows match', async () => {
         const fakePlayer = { id: 99, level: 1, location: 'nowhere', faction: null, race: null, origin: null };
         db.query.mockResolvedValueOnce({ rows: [], rowCount: 0 });
 
-        // When findAll is called, return one row
-        const allRow = {
-            id: 2,
-            name: 'All Quest',
-            description: 'Fallback quest',
-            arc: 'Fallback',
-            requirements: JSON.stringify({}),
-            rewards: JSON.stringify({ gold: 50 }),
-            difficulty: 1,
-            max_level: null,
-            min_level: null,
-            location: null,
-            is_daily: false,
-            is_main_story: false
-        };
-
-        // Next call (from findAll) should return fallback rows
-        db.query.mockResolvedValueOnce({ rows: [allRow], rowCount: 1 });
-
-    // Call getAvailableQuests first (will consume the first mock: empty result)
-    const available = await Quest.getAvailableQuests(fakePlayer);
-    expect(Array.isArray(available)).toBe(true);
-    expect(available.length).toBe(0);
-
-    // Then call findAll which will consume the second mock (fallback rows)
-    const all = await Quest.findAll();
-    expect(Array.isArray(all)).toBe(true);
-    expect(all.length).toBe(1);
-    expect(all[0].id).toBe(2);
+        const available = await Quest.getAvailableQuests(fakePlayer);
+        expect(Array.isArray(available)).toBe(true);
+        expect(available.length).toBe(0);
     });
 });

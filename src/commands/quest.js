@@ -94,23 +94,14 @@ async function handleQuestList(interaction, player) {
     const availableQuests = await Quest.getAvailableQuests(player);
 
     if (availableQuests.length === 0) {
-        // Fallback: if filters accidentally exclude quests, show all quests and log for debugging
-        console.log('[COMMAND] No available quests after filtering — falling back to showing all quests');
-        const fallbackQuests = await Quest.findAll();
+        const noQuestsDisplay = new TextDisplayBuilder()
+            .setContent('📋 No quests available at your current level and location. Try exploring new areas or leveling up!');
 
-        if (fallbackQuests.length === 0) {
-            const noQuestsDisplay = new TextDisplayBuilder()
-                .setContent('📋 No quests available at the moment. Try again later.');
-
-            return await interaction.reply({
-                components: [noQuestsDisplay],
-                flags: MessageFlags.IsComponentsV2,
-                ephemeral: true
-            });
-        }
-
-        // Use fallback list as the available quests
-        availableQuests.push(...fallbackQuests);
+        return await interaction.reply({
+            components: [noQuestsDisplay],
+            flags: MessageFlags.IsComponentsV2,
+            ephemeral: true
+        });
     }
 
     const questContainer = new ContainerBuilder()
@@ -137,6 +128,9 @@ async function handleQuestList(interaction, player) {
                         .setContent(`**🎯 ${quest.name}** (Main Story)\n*${quest.arc} Arc*`),
                     textDisplay => textDisplay
                         .setContent(`${quest.description}\n\n**Difficulty:** ${difficultyStars}\n**Rewards:** ${rewardText}`)
+                                    ,
+                                textDisplay => textDisplay
+                                    .setContent(`**Requirements:** ${formatRequirements(quest)}`)
                 )
                 .setButtonAccessory(
                     button => button
@@ -159,7 +153,9 @@ async function handleQuestList(interaction, player) {
                     textDisplay => textDisplay
                         .setContent(`**📜 ${quest.name}** (Side Quest)\n*${quest.arc} Arc*`),
                     textDisplay => textDisplay
-                        .setContent(`${quest.description}\n\n**Difficulty:** ${difficultyStars}\n**Rewards:** ${rewardText}`)
+                        .setContent(`${quest.description}\n\n**Difficulty:** ${difficultyStars}\n**Rewards:** ${rewardText}`),
+                    textDisplay => textDisplay
+                        .setContent(`**Requirements:** ${formatRequirements(quest)}`)
                 )
                 .setButtonAccessory(
                     button => button
@@ -233,20 +229,14 @@ async function handleStartQuest(interaction, player) {
     const availableQuests = await Quest.getAvailableQuests(player);
 
     if (availableQuests.length === 0) {
-        console.log('[COMMAND] No available quests after filtering in start flow — falling back to showing all quests');
-        const fallbackQuests = await Quest.findAll();
-        if (fallbackQuests.length === 0) {
-            const noQuestsDisplay = new TextDisplayBuilder()
-                .setContent('📋 No quests available at your current level and location. Try exploring new areas or leveling up!');
+        const noQuestsDisplay = new TextDisplayBuilder()
+            .setContent('📋 No quests available at your current level and location. Try exploring new areas or leveling up!');
 
-            return await interaction.reply({
-                components: [noQuestsDisplay],
-                flags: MessageFlags.IsComponentsV2,
-                ephemeral: true
-            });
-        }
-
-        availableQuests.push(...fallbackQuests);
+        return await interaction.reply({
+            components: [noQuestsDisplay],
+            flags: MessageFlags.IsComponentsV2,
+            ephemeral: true
+        });
     }
 
     // If only one quest is available, auto-start it for convenience
@@ -465,11 +455,13 @@ async function handleDailyQuests(interaction, player) {
         const rewardText = formatRewards(quest.rewards);
         
         const questSection = new SectionBuilder()
-            .addTextDisplayComponents(
-                textDisplay => textDisplay
-                    .setContent(`**⏰ ${quest.name}**\n*Daily Quest*`),
-                textDisplay => textDisplay
-                    .setContent(`${quest.description}\n\n**Rewards:** ${rewardText}`)
+                .addTextDisplayComponents(
+                    textDisplay => textDisplay
+                        .setContent(`**⏰ ${quest.name}**\n*Daily Quest*`),
+                    textDisplay => textDisplay
+                        .setContent(`${quest.description}\n\n**Rewards:** ${rewardText}`),
+                    textDisplay => textDisplay
+                        .setContent(`**Requirements:** ${formatRequirements(quest)}`)
             )
             .setButtonAccessory(
                 button => button
@@ -502,4 +494,28 @@ function formatRewards(rewards) {
     if (rewards.ally) parts.push(`Ally: ${rewards.ally}`);
     
     return parts.join(', ') || 'Various rewards';
+}
+
+// Format quest requirements for display to users
+function formatRequirements(quest) {
+    // Attempt to read structured requirements from quest.requirements first
+    const req = quest.requirements || {};
+    const parts = [];
+
+    // Known requirement keys
+    if (req.min_level) parts.push(`Level ≥ ${req.min_level}`);
+    if (req.max_level) parts.push(`Level ≤ ${req.max_level}`);
+    if (req.location) parts.push(`${capitalizeFirst(req.location)}`);
+    if (req.faction) parts.push(`${capitalizeFirst(req.faction)}`);
+    if (req.race) parts.push(`${capitalizeFirst(req.race)}`);
+
+    // Also check top-level fields on the quest object (database columns)
+    if (quest.min_level && !req.min_level) parts.push(`Level ≥ ${quest.min_level}`);
+    if (quest.max_level && !req.max_level) parts.push(`Level ≤ ${quest.max_level}`);
+    if (quest.location && !req.location) parts.push(`${capitalizeFirst(quest.location)}`);
+    if (quest.faction_requirement && !req.faction) parts.push(`${capitalizeFirst(quest.faction_requirement)}`);
+    if (quest.race_requirement && !req.race) parts.push(`${capitalizeFirst(quest.race_requirement)}`);
+
+    if (parts.length === 0) return 'None';
+    return parts.join(' • ');
 }
