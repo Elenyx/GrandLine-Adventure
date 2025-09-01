@@ -215,7 +215,7 @@ async function handleCharacterStats(interaction) {
                 .setContent(`**Experience Progress**\n${progressToNext}/${requiredXP} XP (${progressPercent}%)\n${'█'.repeat(Math.floor(progressPercent/10))}${'░'.repeat(10-Math.floor(progressPercent/10))}`)
         );
 
-    const combatSection = new SectionBuilder()
+    const combatSection = new ContainerBuilder()
         .addTextDisplayComponents(
             textDisplay => textDisplay
                 .setContent(`**⚔️ Combat Statistics**\n**Strength:** ${player.strength}\n**Agility:** ${player.agility}\n**Durability:** ${player.durability}\n**Intelligence:** ${player.intelligence}\n**Total:** ${totalStats}`),
@@ -223,7 +223,7 @@ async function handleCharacterStats(interaction) {
                 .setContent(`**💰 Wealth & Fame**\n**Gold:** 🪙${player.gold.toLocaleString()}\n**Bounty:** ₿${player.bounty.toLocaleString()}\n**Faction:** ${getFactionEmoji(player.faction)} ${capitalizeFirst(player.faction)}`)
         );
 
-    const locationSection = new SectionBuilder()
+    const locationSection = new ContainerBuilder()
         .addTextDisplayComponents(
             textDisplay => textDisplay
                 .setContent(`**🗺️ Journey Information**\n**Current Location:** ${capitalizeFirst(player.location)}\n**Origin:** ${capitalizeFirst(player.origin)}\n**Dream:** ${getDreamText(player.dream)}`)
@@ -269,7 +269,7 @@ async function handleLeaderboard(interaction) {
         topFiveText += `   ${getFactionEmoji(player.faction)} ${capitalizeFirst(player.faction)} • ₿${player.bounty.toLocaleString()}\n`;
     });
 
-    const topSection = new SectionBuilder()
+    const topSection = new ContainerBuilder()
         .addTextDisplayComponents(
             textDisplay => textDisplay
                 .setContent(topFiveText)
@@ -285,7 +285,7 @@ async function handleLeaderboard(interaction) {
             bottomFiveText += `   ${getFactionEmoji(player.faction)} ${capitalizeFirst(player.faction)} • ₿${player.bounty.toLocaleString()}\n`;
         });
 
-        const bottomSection = new SectionBuilder()
+    const bottomSection = new ContainerBuilder()
             .addTextDisplayComponents(
                 textDisplay => textDisplay
                     .setContent(bottomFiveText)
