@@ -84,8 +84,29 @@ module.exports = {
                         .setDescription('Days of inactivity threshold')
                         .setRequired(true)
                         .setMinValue(30)
-                        .setMaxValue(365))),
+                        .setMaxValue(365)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('log')
+                .setDescription('Create a formatted error log for admins')
+                .addStringOption(option =>
+                    option.setName('message')
+                        .setDescription('Short error message')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option.setName('type')
+                        .setDescription('Error type or category')
+                        .setRequired(false))
+                .addStringOption(option =>
+                    option.setName('stack')
+                        .setDescription('Stack trace (plain text)')
+                        .setRequired(false))
+                .addStringOption(option =>
+                    option.setName('metadata')
+                        .setDescription('Optional JSON metadata (string)')
+                        .setRequired(false)))
 
+    ,
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
