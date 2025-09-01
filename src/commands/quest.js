@@ -30,8 +30,8 @@ module.exports = {
                 .setDescription('Abandon an active quest')
                 .addIntegerOption(option =>
                     option.setName('quest_id')
-                        .setDescription('ID of the quest to abandon')
-                        .setRequired(true)))
+                        .setDescription('ID of the quest to abandon (optional)')
+                        .setRequired(false)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('daily')
@@ -392,6 +392,65 @@ async function handleStartQuest(interaction, player) {
 
 async function handleAbandonQuest(interaction, player) {
     const questId = interaction.options.getInteger('quest_id');
+
+    // If no quest id provided, show player's active quests for selection
+    if (!questId) {
+        const activeQuests = await player.getActiveQuests();
+
+        if (activeQuests.length === 0) {
+            const noActiveDisplay = new TextDisplayBuilder()
+                .setContent('📋 You don\'t have any active quests to abandon. Use `/quest list` to find new quests.');
+
+            return await interaction.reply({
+                components: [noActiveDisplay],
+                flags: MessageFlags.IsComponentsV2,
+                ephemeral: true
+            });
+        }
+
+        // If exactly one active quest, show confirmation directly for that quest
+        if (activeQuests.length === 1) {
+            const q = activeQuests[0];
+            // Reuse existing confirmation UI by falling through with questId
+            return await handleAbandonQuestWithId(interaction, player, q.id);
+        }
+
+        // Multiple active quests: show a list with abandon buttons
+        const activeContainer = new ContainerBuilder()
+            .setAccentColor(COLORS.WARNING)
+            .addTextDisplayComponents(
+                td => td.setContent(`**⚡ Active Quests (${activeQuests.length}/5)**\n*Select a quest to abandon*`)
+            );
+
+        const components = [activeContainer];
+
+        activeQuests.forEach(qd => {
+            const questSection = new SectionBuilder()
+                .addTextDisplayComponents(
+                    td => td.setContent(`**${qd.name}**\n*${qd.arc} Arc*`),
+                    td => td.setContent(qd.description)
+                )
+                .setButtonAccessory(btn => btn
+                    .setCustomId(`quest_abandon_select_${qd.id}`)
+                    .setLabel('Abandon')
+                    .setStyle('Danger')
+                );
+
+            components.push(questSection);
+        });
+
+        return await interaction.reply({
+            components: components,
+            flags: MessageFlags.IsComponentsV2,
+            ephemeral: true
+        });
+    }
+
+    return await handleAbandonQuestWithId(interaction, player, questId);
+}
+
+// Separate helper to show the confirmation flow when we have a quest id
+async function handleAbandonQuestWithId(interaction, player, questId) {
     const quest = await Quest.findById(questId);
 
     if (!quest) {
@@ -404,7 +463,6 @@ async function handleAbandonQuest(interaction, player) {
             ephemeral: true
         });
     }
-
     // Check if player has this quest
     const progress = await quest.getPlayerProgress(player.id);
     if (!progress || progress.status !== QUEST_STATUS.IN_PROGRESS) {
