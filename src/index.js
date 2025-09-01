@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 require('dotenv').config();
+const { runMigrations } = require('./database/migrate');
 
 // Initialize client with required intents
 const client = new Client({
@@ -100,10 +101,21 @@ process.on('uncaughtException', error => {
     process.exit(1);
 });
 
-// --- Login to Discord ---
+// --- Login to Discord (run migrations first) ---
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
     console.error("[FATAL] DISCORD_TOKEN environment variable is not set! The bot cannot log in.");
     process.exit(1);
 }
-client.login(token);
+
+(async () => {
+    try {
+        console.log('[STARTUP] Running database migrations...');
+        await runMigrations();
+        console.log('[STARTUP] Migrations complete. Logging in to Discord...');
+        await client.login(token);
+    } catch (err) {
+        console.error('[FATAL] Startup failed:', err);
+        process.exit(1);
+    }
+})();
