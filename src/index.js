@@ -48,8 +48,19 @@ function loadComponents(dir) {
             try {
                 const componentExports = require(fullPath);
                 
-                // Handle different export styles (single object, array of objects, etc.)
-                const handlers = Array.isArray(componentExports) ? componentExports : Object.values(componentExports);
+                // Handle different export styles (single object, array of objects, object map of handlers, etc.)
+                let handlers = [];
+                if (Array.isArray(componentExports)) {
+                    handlers = componentExports;
+                } else if (componentExports && typeof componentExports === 'object') {
+                    // If the export itself is a handler (has customId & execute), treat it as a single handler
+                    if (typeof componentExports.customId !== 'undefined' && typeof componentExports.execute === 'function') {
+                        handlers = [componentExports];
+                    } else {
+                        // Otherwise, assume it's an object whose values are handlers
+                        handlers = Object.values(componentExports);
+                    }
+                }
 
                 for (const handler of handlers) {
                     if (handler && typeof handler.customId !== 'undefined' && typeof handler.execute === 'function') {

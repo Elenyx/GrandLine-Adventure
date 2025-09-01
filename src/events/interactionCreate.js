@@ -33,16 +33,21 @@ module.exports = {
             else if (interaction.isButton() || interaction.isStringSelectMenu() || interaction.isModalSubmit()) {
                 let handler;
 
-                // Try to find a handler with a matching customId (string or regex)
-                for (const component of interaction.client.components.values()) {
-                    if (component.customId instanceof RegExp) {
-                        if (component.customId.test(interaction.customId)) {
+                // Fast path: try direct lookup for string customIds
+                if (interaction.client.components.has(interaction.customId)) {
+                    handler = interaction.client.components.get(interaction.customId);
+                } else {
+                    // Fallback: iterate handlers to test regex customIds
+                    for (const component of interaction.client.components.values()) {
+                        if (component.customId instanceof RegExp) {
+                            if (component.customId.test(interaction.customId)) {
+                                handler = component;
+                                break;
+                            }
+                        } else if (component.customId === interaction.customId) {
                             handler = component;
                             break;
                         }
-                    } else if (component.customId === interaction.customId) {
-                        handler = component;
-                        break;
                     }
                 }
 
