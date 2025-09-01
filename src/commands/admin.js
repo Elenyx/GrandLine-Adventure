@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, TextDisplayBuilder, SectionBuilder, ContainerBuilder } = require('discord.js');
+const { normalizeOptions } = require('../utils/componentHelper');
 const { getErrorLogChannel, setErrorLogChannel, getAllMappings } = require('../utils/errorLogStore');
 const Player = require('../database/models/Player');
 const Quest = require('../database/models/Quest');
@@ -188,9 +189,9 @@ async function handleBotStats(interaction) {
         const errDisplay = new TextDisplayBuilder().setContent('❌ Failed to fetch statistics from the database.');
         // Prefer reply if not already replied
         if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ components: [errDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true });
+            await interaction.followUp(normalizeOptions({ components: [errDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true }));
         } else {
-            await interaction.reply({ components: [errDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true });
+            await interaction.reply(normalizeOptions({ components: [errDisplay], flags: MessageFlags.IsComponentsV2, ephemeral: true }));
         }
         return;
     }
@@ -247,11 +248,11 @@ async function handlePlayerReset(interaction) {
         const errorDisplay = new TextDisplayBuilder()
             .setContent('❌ That user doesn\'t have a character to reset!');
 
-        return await interaction.reply({
+        return await interaction.reply(normalizeOptions({
             components: [errorDisplay],
             flags: MessageFlags.IsComponentsV2,
             ephemeral: true
-        });
+        }));
     }
 
     const confirmContainer = new ContainerBuilder()
@@ -275,11 +276,11 @@ async function handlePlayerReset(interaction) {
                 .setStyle('Danger')
         );
 
-    await interaction.reply({
+    await interaction.reply(normalizeOptions({
         components: [confirmContainer, confirmSection],
         flags: MessageFlags.IsComponentsV2,
         ephemeral: true
-    });
+    }));
 }
 
 async function handleGiveItems(interaction) {
@@ -293,11 +294,11 @@ async function handleGiveItems(interaction) {
         const errorDisplay = new TextDisplayBuilder()
             .setContent('❌ That user doesn\'t have a character!');
 
-        return await interaction.reply({
+        return await interaction.reply(normalizeOptions({
             components: [errorDisplay],
             flags: MessageFlags.IsComponentsV2,
             ephemeral: true
-        });
+        }));
     }
 
     let updateMessage = '';
@@ -341,11 +342,11 @@ async function handleGiveItems(interaction) {
                 .setContent(`${updateMessage}\n${leveledUp ? '\n🎉 **LEVEL UP!**' : ''}`)
         );
 
-    await interaction.reply({
+    await interaction.reply(normalizeOptions({
         components: [successContainer],
         flags: MessageFlags.IsComponentsV2,
         ephemeral: false
-    });
+    }));
 }
 
 async function handleBroadcast(interaction) {
@@ -360,21 +361,21 @@ async function handleBroadcast(interaction) {
                 .setContent(message)
         );
 
-    await interaction.reply({
+    await interaction.reply(normalizeOptions({
         components: [broadcastContainer],
         flags: MessageFlags.IsComponentsV2,
         ephemeral: false
-    });
+    }));
 
     // Acknowledge to admin
     const confirmDisplay = new TextDisplayBuilder()
         .setContent('✅ Announcement sent successfully!');
 
-    await interaction.followUp({
+    await interaction.followUp(normalizeOptions({
         components: [confirmDisplay],
         flags: MessageFlags.IsComponentsV2,
         ephemeral: true
-    });
+    }));
 }
 
 async function handleServerEvent(interaction) {
@@ -404,11 +405,11 @@ async function handleServerEvent(interaction) {
                 .setContent(eventDescriptions[eventType])
         );
 
-    await interaction.reply({
+    await interaction.reply(normalizeOptions({
         components: [eventContainer],
         flags: MessageFlags.IsComponentsV2,
         ephemeral: false
-    });
+    }));
 
     // Set timeout to end event
     setTimeout(async () => {
@@ -420,11 +421,11 @@ async function handleServerEvent(interaction) {
                         .setContent(`**⏰ ${eventNames[eventType]} Ended**\n*Thank you for participating!*`)
                 );
 
-            await interaction.followUp({
+            await interaction.followUp(normalizeOptions({
                 components: [endContainer],
                 flags: MessageFlags.IsComponentsV2,
                 ephemeral: false
-            });
+            }));
         } catch (error) {
             console.error('Error ending event:', error);
         }
@@ -451,10 +452,10 @@ async function handleCleanup(interaction) {
             const noCleanupDisplay = new TextDisplayBuilder()
                 .setContent(`✅ No players found inactive for more than ${days} days.`);
 
-            return await interaction.editReply({
+            return await interaction.editReply(normalizeOptions({
                 components: [noCleanupDisplay],
                 flags: MessageFlags.IsComponentsV2
-            });
+            }));
         }
 
         const confirmContainer = new ContainerBuilder()
@@ -478,16 +479,16 @@ async function handleCleanup(interaction) {
                     .setStyle('Danger')
             );
 
-        await interaction.editReply({
+        await interaction.editReply(normalizeOptions({
             components: [confirmContainer, confirmSection],
             flags: MessageFlags.IsComponentsV2
-        });
+        }));
 
     } catch (error) {
         console.error('Error in cleanup:', error);
-        await interaction.editReply({
+        await interaction.editReply(normalizeOptions({
             content: 'Error occurred during cleanup operation.',
             components: []
-        });
+        }));
     }
 }
