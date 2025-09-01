@@ -53,12 +53,17 @@ function loadComponents(dir) {
                 if (Array.isArray(componentExports)) {
                     handlers = componentExports;
                 } else if (componentExports && typeof componentExports === 'object') {
-                    // If the export itself is a handler (has customId & execute), treat it as a single handler
+                    // If the export itself is a handler (has customId & execute), include it
                     if (typeof componentExports.customId !== 'undefined' && typeof componentExports.execute === 'function') {
-                        handlers = [componentExports];
-                    } else {
-                        // Otherwise, assume it's an object whose values are handlers
-                        handlers = Object.values(componentExports);
+                        handlers.push(componentExports);
+                    }
+
+                    // Also inspect all properties exported on the module and include any handler-like objects
+                    for (const val of Object.values(componentExports)) {
+                        if (val && typeof val === 'object' && typeof val.customId !== 'undefined' && typeof val.execute === 'function') {
+                            // avoid duplicates
+                            if (!handlers.includes(val)) handlers.push(val);
+                        }
                     }
                 }
 
