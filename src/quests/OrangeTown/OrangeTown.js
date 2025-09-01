@@ -1,4 +1,4 @@
-const BaseQuest = require('./BaseQuest');
+const BaseQuest = require('../BaseQuest');
 
 class OrangeTownQuest extends BaseQuest {
     constructor(questData) {
@@ -67,7 +67,7 @@ class OrangeTownQuest extends BaseQuest {
     }
 
     async executeStep(step, playerId, interaction) {
-        const Player = require('../database/models/Player');
+        const Player = require('../../database/models/Player');
         const player = await Player.findById(playerId);
 
         switch (step.type) {
