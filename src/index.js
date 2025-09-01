@@ -69,13 +69,71 @@ for (const file of eventFiles) {
 }
 
 // --- Global Error Handling ---
-process.on('unhandledRejection', error => {
-    console.error('Unhandled promise rejection:', error);
+const { getAllMappings } = require('./utils/errorLogStore');
+
+async function postErrorToChannels(client, payload) {
+    try {
+        const mappings = getAllMappings();
+        for (const [guildId, channelId] of Object.entries(mappings)) {
+            try {
+                const guild = await client.guilds.fetch(guildId).catch(() => null);
+                if (!guild) continue;
+                const channel = await guild.channels.fetch(channelId).catch(() => null);
+                if (!channel || !channel.isTextBased()) continue;
+
+                // Keep message compact and easy to copy/paste
+                const text = `**[ERROR]** ${payload.title}\n\n` +
+                    `**Type:** ${payload.type}\n` +
+                    `**Time:** ${payload.time}\n` +
+                    `**Message:** ${payload.message}\n\n` +
+                    `**Stack:**\n${payload.stack}\n\n` +
+                    `**Metadata:** ${JSON.stringify(payload.meta || {}, null, 2)}`;
+
+                await channel.send({ content: text });
+            } catch (err) {
+                console.error('Failed to send error log to channel', channelId, err);
+            }
+        }
+    } catch (err) {
+        console.error('Failed to iterate error log mappings:', err);
+    }
+}
+
+process.on('unhandledRejection', async (reason, promise) => {
+    try {
+        console.error('Unhandled promise rejection:', reason);
+        const payload = {
+            title: 'Unhandled Promise Rejection',
+            type: reason && reason.name ? reason.name : typeof reason,
+            message: reason && reason.message ? reason.message : String(reason),
+            stack: reason && reason.stack ? reason.stack : String(reason),
+            time: new Date().toISOString(),
+            meta: { promise: String(promise), nodeVersion: process.version }
+        };
+        await postErrorToChannels(client, payload);
+    } catch (err) {
+        console.error('Error handling unhandledRejection:', err);
+    }
 });
 
-process.on('uncaughtException', error => {
-    console.error('Uncaught exception:', error);
-    process.exit(1);
+process.on('uncaughtException', async (error) => {
+    try {
+        console.error('Uncaught exception:', error);
+        const payload = {
+            title: 'Uncaught Exception',
+            type: error && error.name ? error.name : typeof error,
+            message: error && error.message ? error.message : String(error),
+            stack: error && error.stack ? error.stack : String(error),
+            time: new Date().toISOString(),
+            meta: { pid: process.pid, nodeVersion: process.version }
+        };
+        await postErrorToChannels(client, payload);
+    } catch (err) {
+        console.error('Error handling uncaughtException reporter:', err);
+    } finally {
+        // allow some time to post before exiting
+        setTimeout(() => process.exit(1), 1000);
+    }
 });
 
 // --- Login to Discord (run migrations first) ---

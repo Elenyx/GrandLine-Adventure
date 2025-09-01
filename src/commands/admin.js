@@ -1,3 +1,39 @@
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { getErrorLogChannel, setErrorLogChannel, getAllMappings } = require('../utils/errorLogStore');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('admin')
+        .setDescription('Administrator utilities')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .addSubcommand(sub => sub
+            .setName('set-error-log')
+            .setDescription('Set or change the error log channel for this server')
+            .addChannelOption(opt => opt.setName('channel').setDescription('Channel to receive error logs').setRequired(true))
+        )
+        .addSubcommand(sub => sub
+            .setName('show-error-logs')
+            .setDescription('Show configured error log channels for all servers')
+        ),
+
+    async execute(interaction) {
+        const sub = interaction.options.getSubcommand();
+        if (sub === 'set-error-log') {
+            const channel = interaction.options.getChannel('channel');
+            try {
+                setErrorLogChannel(interaction.guild.id, channel.id);
+                await interaction.reply({ content: `Error log channel set to ${channel}.`, ephemeral: true });
+            } catch (err) {
+                console.error('Failed to set error log channel:', err);
+                await interaction.reply({ content: 'Failed to set error log channel.', ephemeral: true });
+            }
+        } else if (sub === 'show-error-logs') {
+            const mappings = getAllMappings();
+            const lines = Object.entries(mappings).map(([g, c]) => `${g} -> ${c}`);
+            await interaction.reply({ content: lines.length ? lines.join('\n') : 'No error log channels configured.', ephemeral: true });
+        }
+    }
+};
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js');
 const { TextDisplayBuilder, SectionBuilder, ContainerBuilder } = require('discord.js');
 const Player = require('../database/models/Player');
@@ -84,29 +120,8 @@ module.exports = {
                         .setDescription('Days of inactivity threshold')
                         .setRequired(true)
                         .setMinValue(30)
-                        .setMaxValue(365)))
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('log')
-                .setDescription('Create a formatted error log for admins')
-                .addStringOption(option =>
-                    option.setName('message')
-                        .setDescription('Short error message')
-                        .setRequired(true))
-                .addStringOption(option =>
-                    option.setName('type')
-                        .setDescription('Error type or category')
-                        .setRequired(false))
-                .addStringOption(option =>
-                    option.setName('stack')
-                        .setDescription('Stack trace (plain text)')
-                        .setRequired(false))
-                .addStringOption(option =>
-                    option.setName('metadata')
-                        .setDescription('Optional JSON metadata (string)')
-                        .setRequired(false)))
+                        .setMaxValue(365))),
 
-    ,
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
