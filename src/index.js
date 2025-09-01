@@ -110,9 +110,22 @@ if (!token) {
 
 (async () => {
     try {
-        console.log('[STARTUP] Running database migrations...');
-        await runMigrations();
-        console.log('[STARTUP] Migrations complete. Logging in to Discord...');
+        const migrateFlag = process.env.MIGRATE_ON_STARTUP;
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        // Default: do not run migrations automatically in production unless explicitly enabled
+        const shouldRunMigrations = migrateFlag ? migrateFlag.toLowerCase() === 'true' : !isProduction;
+
+        if (shouldRunMigrations) {
+            console.log('[STARTUP] Running database migrations...');
+            await runMigrations();
+            console.log('[STARTUP] Migrations complete.');
+        } else {
+            console.log(`[STARTUP] Skipping database migrations on startup (MIGRATE_ON_STARTUP=${migrateFlag || 'undefined'}, NODE_ENV=${process.env.NODE_ENV || 'undefined'}).`);
+            console.log('[STARTUP] If you want to run migrations automatically on startup, set MIGRATE_ON_STARTUP=true.');
+        }
+
+        console.log('[STARTUP] Logging in to Discord...');
         await client.login(token);
     } catch (err) {
         console.error('[FATAL] Startup failed:', err);

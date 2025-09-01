@@ -91,6 +91,24 @@ async function runMigrations() {
 
         const statements = splitSqlStatements(initSql);
 
+        // Validate parser output by reconstructing the SQL and comparing to the original
+        // Normalization: remove all whitespace differences to make the comparison robust
+        function normalizeSql(s) {
+            return s.replace(/\s+/g, ' ').trim();
+        }
+
+        const reconstructed = statements.map(s => s.trim()).join(';') + (initSql.trim().endsWith(';') ? ';' : '');
+        const originalNorm = normalizeSql(initSql);
+        const reconstructedNorm = normalizeSql(reconstructed);
+
+        if (originalNorm !== reconstructedNorm) {
+            console.error('[DATABASE] ❌ Migration validation failed: parsed statements do not reconstruct the original SQL file.');
+            console.error('[DATABASE] This likely indicates the SQL splitter broke a statement (e.g. semicolon inside quotes).');
+            console.error('[DATABASE] Aborting migration to avoid executing a malformed script.');
+            console.error('[DATABASE] If you intended to run migrations despite this, set MIGRATE_ON_STARTUP=true explicitly.');
+            throw new Error('Migration validation failed: parsed SQL does not match original.');
+        }
+
         // Run all statements within a single transaction.
         // If any statement fails, the entire transaction is rolled back.
         await client.query('BEGIN');
