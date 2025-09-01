@@ -1,41 +1,6 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { getErrorLogChannel, setErrorLogChannel, getAllMappings } = require('../utils/errorLogStore');
-
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('admin')
-        .setDescription('Administrator utilities')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addSubcommand(sub => sub
-            .setName('set-error-log')
-            .setDescription('Set or change the error log channel for this server')
-            .addChannelOption(opt => opt.setName('channel').setDescription('Channel to receive error logs').setRequired(true))
-        )
-        .addSubcommand(sub => sub
-            .setName('show-error-logs')
-            .setDescription('Show configured error log channels for all servers')
-        ),
-
-    async execute(interaction) {
-        const sub = interaction.options.getSubcommand();
-        if (sub === 'set-error-log') {
-            const channel = interaction.options.getChannel('channel');
-            try {
-                setErrorLogChannel(interaction.guild.id, channel.id);
-                await interaction.reply({ content: `Error log channel set to ${channel}.`, ephemeral: true });
-            } catch (err) {
-                console.error('Failed to set error log channel:', err);
-                await interaction.reply({ content: 'Failed to set error log channel.', ephemeral: true });
-            }
-        } else if (sub === 'show-error-logs') {
-            const mappings = getAllMappings();
-            const lines = Object.entries(mappings).map(([g, c]) => `${g} -> ${c}`);
-            await interaction.reply({ content: lines.length ? lines.join('\n') : 'No error log channels configured.', ephemeral: true });
-        }
-    }
-};
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js');
 const { TextDisplayBuilder, SectionBuilder, ContainerBuilder } = require('discord.js');
+const { getErrorLogChannel, setErrorLogChannel, getAllMappings } = require('../utils/errorLogStore');
 const Player = require('../database/models/Player');
 const Quest = require('../database/models/Quest');
 const Crew = require('../database/models/Crew');
@@ -120,7 +85,16 @@ module.exports = {
                         .setDescription('Days of inactivity threshold')
                         .setRequired(true)
                         .setMinValue(30)
-                        .setMaxValue(365))),
+                        .setMaxValue(365)))
+        .addSubcommand(sub => sub
+            .setName('set-error-log')
+            .setDescription('Set or change the error log channel for this server')
+            .addChannelOption(opt => opt.setName('channel').setDescription('Channel to receive error logs').setRequired(true))
+        )
+        .addSubcommand(sub => sub
+            .setName('show-error-logs')
+            .setDescription('Show configured error log channels for all servers')
+        ),
 
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -145,6 +119,25 @@ module.exports = {
                 case 'cleanup':
                     await handleCleanup(interaction);
                     break;
+                case 'set-error-log':
+                    {
+                        const channel = interaction.options.getChannel('channel');
+                        try {
+                            setErrorLogChannel(interaction.guild.id, channel.id);
+                            await interaction.reply({ content: `Error log channel set to ${channel}.`, ephemeral: true });
+                        } catch (err) {
+                            console.error('Failed to set error log channel:', err);
+                            await interaction.reply({ content: 'Failed to set error log channel.', ephemeral: true });
+                        }
+                    }
+                    break;
+                case 'show-error-logs':
+                    {
+                        const mappings = getAllMappings();
+                        const lines = Object.entries(mappings).map(([g, c]) => `${g} -> ${c}`);
+                        await interaction.reply({ content: lines.length ? lines.join('\n') : 'No error log channels configured.', ephemeral: true });
+                    }
+                    break;
                 default:
                     await interaction.reply({
                         content: 'Unknown admin command.',
@@ -166,6 +159,7 @@ module.exports = {
         }
     },
 };
+
 
 async function handleBotStats(interaction) {
     // Get database statistics
