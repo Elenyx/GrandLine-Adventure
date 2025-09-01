@@ -34,61 +34,22 @@ for (const file of commandFiles) {
     }
 }
 
-// --- Recursive Component Loader ---
-// This function will find all component handlers, even in subdirectories,
-// and correctly loads files that export single objects, arrays of objects, or multiple handlers.
-function loadComponents(dir) {
-    const files = fs.readdirSync(dir, { withFileTypes: true });
-
-    for (const file of files) {
-        const fullPath = path.join(dir, file.name);
-        if (file.isDirectory()) {
-            loadComponents(fullPath);
-        } else if (file.name.endsWith('.js')) {
-            try {
-                const componentExports = require(fullPath);
-                
-                // Handle different export styles (single object, array of objects, object map of handlers, etc.)
-                let handlers = [];
-                if (Array.isArray(componentExports)) {
-                    handlers = componentExports;
-                } else if (componentExports && typeof componentExports === 'object') {
-                    // If the export itself is a handler (has customId & execute), include it
-                    if (typeof componentExports.customId !== 'undefined' && typeof componentExports.execute === 'function') {
-                        handlers.push(componentExports);
-                    }
-
-                    // Also inspect all properties exported on the module and include any handler-like objects
-                    for (const val of Object.values(componentExports)) {
-                        if (val && typeof val === 'object' && typeof val.customId !== 'undefined' && typeof val.execute === 'function') {
-                            // avoid duplicates
-                            if (!handlers.includes(val)) handlers.push(val);
-                        }
-                    }
-                }
-
-                for (const handler of handlers) {
-                    if (handler && typeof handler.customId !== 'undefined' && typeof handler.execute === 'function') {
-                        const id = handler.customId instanceof RegExp ? handler.customId.toString() : handler.customId;
-                        if (client.components.has(id)) {
-                             console.warn(`[WARNING] Duplicate component customId found: ${id}. Overwriting.`);
-                        }
-                        // Store the component with its customId (string or regex string) as the key
-                        client.components.set(id, handler);
-                        console.log(`[COMPONENT] Loaded ${id}`);
-                    }
-                }
-            } catch (error) {
-                console.error(`[ERROR] Failed to load components from ${fullPath}:`, error);
-            }
-        }
-    }
-}
+// --- Component Loader (uses a utility so we can test it) ---
+const { loadComponentsFromDir } = require('./utils/componentLoader');
 
 const componentsPath = path.join(__dirname, 'components');
 console.log('[COMPONENT] Loading components...');
-loadComponents(componentsPath);
+const loaded = loadComponentsFromDir(componentsPath);
+client.components = loaded; // assign the map returned by the loader
 console.log(`[COMPONENT] Total components loaded: ${client.components.size}`);
+
+// Debug: print all registered component customIds for startup verification
+try {
+    const ids = Array.from(client.components.keys()).slice(0, 100).join(', ');
+    console.log('[COMPONENT] Registered component customIds:', ids || '<none>');
+} catch (err) {
+    console.error('[COMPONENT] Failed to list component customIds:', err);
+}
 
 
 // --- Event Loader ---
