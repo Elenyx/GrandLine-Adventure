@@ -140,7 +140,7 @@ async function handleCharacterProfile(interaction) {
                 .setContent(`**Level:** ${player.level} | **XP:** ${player.experience}/${player.getRequiredXP()}\n**Bounty:** ₿${player.bounty.toLocaleString()}\n**Gold:** 🪙${player.gold.toLocaleString()}`)
         );
 
-    const statsSection = new SectionBuilder()
+    const statsSection = new ContainerBuilder()
         .addTextDisplayComponents(
             textDisplay => textDisplay
                 .setContent(`**⚔️ Combat Stats**\n**Strength:** ${player.strength}\n**Agility:** ${player.agility}\n**Durability:** ${player.durability}\n**Intelligence:** ${player.intelligence}`),
@@ -155,7 +155,7 @@ async function handleCharacterProfile(interaction) {
         const Crew = require('../database/models/Crew');
         const crew = await Crew.findById(player.crew_id);
         if (crew) {
-            const crewSection = new SectionBuilder()
+            const crewSection = new ContainerBuilder()
                 .addTextDisplayComponents(
                     textDisplay => textDisplay
                         .setContent(`**🏴‍☠️ Crew:** ${crew.name}\n**Crew Bounty:** ₿${crew.bounty.toLocaleString()}\n**Members:** ${crew.member_count}/20`)
@@ -171,7 +171,7 @@ async function handleCharacterProfile(interaction) {
             ? `**Active Ally:** ${activeAlly.name} (Bond Level ${activeAlly.bond_level})\n**Total Allies:** ${allies.length}`
             : `**Total Allies:** ${allies.length} (None active)`;
         
-        const allySection = new SectionBuilder()
+    const allySection = new ContainerBuilder()
             .addTextDisplayComponents(
                 textDisplay => textDisplay
                     .setContent(`**👥 Allies**\n${allyText}`)
