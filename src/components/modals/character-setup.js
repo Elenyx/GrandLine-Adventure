@@ -1,6 +1,8 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, MessageFlags } = require('discord.js');
 const { TextDisplayBuilder, SectionBuilder, ContainerBuilder } = require('discord.js');
 const Player = require('../../database/models/Player');
+const Quest = require('../../database/models/Quest');
+const QuestManager = require('../../systems/QuestManager');
 const { COLORS, RACES, ORIGINS, DREAMS, FACTIONS } = require('../../config/constants');
 
 module.exports = [
@@ -141,6 +143,39 @@ module.exports = [
                     flags: MessageFlags.IsComponentsV2,
                     ephemeral: false
                 });
+
+                // Auto-start the very first quest for new players to reduce friction
+                (async () => {
+                    try {
+                        const FIRST_QUEST_ID = 1;
+                        const firstQuest = await Quest.findById(FIRST_QUEST_ID);
+                        if (!firstQuest) return;
+
+                        // Ensure player meets requirements and doesn't already have it
+                        if (!firstQuest.canPlayerAccept(player)) return;
+                        const existing = await firstQuest.getPlayerProgress(player.id);
+                        if (existing) return;
+
+                        // Start quest and initialize quest manager state
+                        await firstQuest.startForPlayer(player.id);
+                        try { await QuestManager.initializeQuest(player.id, FIRST_QUEST_ID); } catch (e) { /* non-fatal */ }
+
+                        const questStartContainer = new ContainerBuilder()
+                            .setAccentColor(COLORS.SUCCESS)
+                            .addTextDisplayComponents(
+                                td => td.setContent(`**🗡️ Your First Quest Has Begun!**\n*${firstQuest.name}*`),
+                                td => td.setContent(`${firstQuest.description}\n\nUse \`/quest active\` to view your quest or click any quest buttons to continue.`)
+                            );
+
+                        await interaction.followUp({
+                            components: [questStartContainer],
+                            flags: MessageFlags.IsComponentsV2,
+                            ephemeral: false
+                        });
+                    } catch (err) {
+                        console.error('Error auto-starting first quest for new player:', err);
+                    }
+                })();
 
             } catch (error) {
                 console.error('Error creating character:', error);

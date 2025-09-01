@@ -1,5 +1,5 @@
-const RomanceDawnQuest = require('./RomanceDawn');
-const OrangeTownQuest = require('./OrangeTown');
+const RomanceDawnQuest = require('./RomanceDawn/RomanceDawn');
+const OrangeTownQuest = require('./OrangeTown/OrangeTown');
 
 // Quest registry mapping quest IDs to their implementations
 const questRegistry = new Map();
