@@ -79,25 +79,40 @@ class Quest {
     }
 
     static async getAvailableQuests(player) {
-        const result = await query(`
-            SELECT q.* FROM quests q
-            LEFT JOIN player_quests pq ON q.id = pq.quest_id AND pq.player_id = $1
-            WHERE pq.id IS NULL
-            AND (q.min_level <= $2 OR q.min_level IS NULL)
-            AND (q.max_level >= $2 OR q.max_level IS NULL)
-            AND (q.location = $3 OR q.location IS NULL)
-            AND (q.faction_requirement = $4 OR q.faction_requirement IS NULL)
-            AND (q.race_requirement = $5 OR q.race_requirement IS NULL)
-            AND (q.origin_requirement = $6 OR q.origin_requirement IS NULL)
-            ORDER BY q.difficulty, q.min_level
-        `, [
+        // Be resilient against null/empty player fields (location/faction/race/origin)
+        // so that quests aren't accidentally excluded when a player's field is NULL/empty.
+        const params = [
             player.id,
             player.level,
             player.location,
             player.faction,
             player.race,
             player.origin
-        ]);
+        ];
+
+        // Debug log to help diagnose filtering issues in production/dev logs
+        // (kept lightweight)
+        console.debug('getAvailableQuests params:', {
+            playerId: params[0],
+            level: params[1],
+            location: params[2],
+            faction: params[3],
+            race: params[4],
+            origin: params[5]
+        });
+
+        const result = await query(`
+            SELECT q.* FROM quests q
+            LEFT JOIN player_quests pq ON q.id = pq.quest_id AND pq.player_id = $1
+            WHERE pq.id IS NULL
+            AND (q.min_level <= $2 OR q.min_level IS NULL)
+            AND (q.max_level >= $2 OR q.max_level IS NULL)
+            AND (q.location = $3 OR q.location IS NULL OR $3 IS NULL OR $3 = '')
+            AND (q.faction_requirement = $4 OR q.faction_requirement IS NULL OR $4 IS NULL OR $4 = '')
+            AND (q.race_requirement = $5 OR q.race_requirement IS NULL OR $5 IS NULL OR $5 = '')
+            AND (q.origin_requirement = $6 OR q.origin_requirement IS NULL OR $6 IS NULL OR $6 = '')
+            ORDER BY q.difficulty, q.min_level
+        `, params);
 
         return result.rows.map(row => {
             const quest = new Quest(row);
