@@ -22,8 +22,8 @@ module.exports = {
                 .setDescription('Start a quest')
                 .addIntegerOption(option =>
                     option.setName('quest_id')
-                        .setDescription('ID of the quest to start')
-                        .setRequired(true)))
+                        .setDescription('ID of the quest to start (optional)')
+                        .setRequired(false)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('abandon')
@@ -225,6 +225,12 @@ async function handleActiveQuests(interaction, player) {
 
 async function handleStartQuest(interaction, player) {
     const questId = interaction.options.getInteger('quest_id');
+
+    // If no quest id provided, show available quests for selection
+    if (!questId) {
+        return await handleQuestList(interaction, player);
+    }
+
     const quest = await Quest.findById(questId);
 
     if (!quest) {
