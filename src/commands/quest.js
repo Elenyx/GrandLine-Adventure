@@ -228,6 +228,95 @@ async function handleStartQuest(interaction, player) {
 
     // If no quest id provided, show available quests for selection
     if (!questId) {
+        // Fetch available quests
+        const availableQuests = await Quest.getAvailableQuests(player);
+
+        if (availableQuests.length === 0) {
+            const noQuestsDisplay = new TextDisplayBuilder()
+                .setContent('📋 No quests available at your current level and location. Try exploring new areas or leveling up!');
+
+            return await interaction.reply({
+                components: [noQuestsDisplay],
+                flags: MessageFlags.IsComponentsV2,
+                ephemeral: true
+            });
+        }
+
+        // If only one quest is available, auto-start it for convenience
+        if (availableQuests.length === 1) {
+            const single = availableQuests[0];
+            const quest = await Quest.findById(single.id);
+
+            if (!quest) {
+                const errorDisplay = new TextDisplayBuilder()
+                    .setContent('❌ Quest not found!');
+
+                return await interaction.reply({
+                    components: [errorDisplay],
+                    flags: MessageFlags.IsComponentsV2,
+                    ephemeral: true
+                });
+            }
+
+            // Reuse the existing start flow below by assigning questId variable
+            // and falling through.
+            // (We'll proceed to start the quest as if the user provided the id.)
+            // Note: continue execution with this quest instance.
+            // Check if player can accept the quest
+            if (!quest.canPlayerAccept(player)) {
+                const errorDisplay = new TextDisplayBuilder()
+                    .setContent('❌ You don\'t meet the requirements for this quest!');
+
+                return await interaction.reply({
+                    components: [errorDisplay],
+                    flags: MessageFlags.IsComponentsV2,
+                    ephemeral: true
+                });
+            }
+
+            const existingProgress = await quest.getPlayerProgress(player.id);
+            if (existingProgress) {
+                const errorDisplay = new TextDisplayBuilder()
+                    .setContent('❌ You already have this quest!');
+
+                return await interaction.reply({
+                    components: [errorDisplay],
+                    flags: MessageFlags.IsComponentsV2,
+                    ephemeral: true
+                });
+            }
+
+            const activeQuests = await player.getActiveQuests();
+            if (activeQuests.length >= 5) {
+                const errorDisplay = new TextDisplayBuilder()
+                    .setContent('❌ You can only have 5 active quests at a time. Abandon a quest first!');
+
+                return await interaction.reply({
+                    components: [errorDisplay],
+                    flags: MessageFlags.IsComponentsV2,
+                    ephemeral: true
+                });
+            }
+
+            await quest.startForPlayer(player.id);
+
+            const successContainer = new ContainerBuilder()
+                .setAccentColor(COLORS.SUCCESS)
+                .addTextDisplayComponents(
+                    textDisplay => textDisplay
+                        .setContent(`**✅ Quest Started!**\n*${quest.name}*`),
+                    textDisplay => textDisplay
+                        .setContent(`${quest.description}\n\n**Arc:** ${quest.arc}\n**Difficulty:** ${'⭐'.repeat(quest.difficulty)}\n\nGood luck on your adventure!`)
+                );
+
+            return await interaction.reply({
+                components: [successContainer],
+                flags: MessageFlags.IsComponentsV2,
+                ephemeral: false
+            });
+        }
+
+        // Multiple quests available -> show list for selection
         return await handleQuestList(interaction, player);
     }
 
