@@ -7,7 +7,8 @@
     "deploy": "node deploy-commands.js",
     "deploy:global": "node scripts/deploy-global-commands.js",
     "clear:guild": "node scripts/clear-guild-commands.js",
-    "test": "jest --runInBand"
+  "test": "jest --runInBand",
+  "push": "powershell -ExecutionPolicy Bypass -File ./scripts/auto-push.ps1 -Message \"chore: apply changes from assistant\""
   },
   "keywords": [
     "discord",

@@ -81,13 +81,16 @@ class Quest {
     static async getAvailableQuests(player) {
         // Be resilient against null/empty player fields (location/faction/race/origin)
         // so that quests aren't accidentally excluded when a player's field is NULL/empty.
+        // Normalize empty strings to null to avoid passing '' into enum comparisons
+        const sanitize = v => (v === undefined || v === null) ? null : (typeof v === 'string' && v.trim() === '') ? null : v;
+
         const params = [
             player.id,
             player.level,
-            player.location,
-            player.faction,
-            player.race,
-            player.origin
+            sanitize(player.location),
+            sanitize(player.faction),
+            sanitize(player.race),
+            sanitize(player.origin)
         ];
 
         // Debug log to help diagnose filtering issues in production/dev logs
@@ -107,10 +110,12 @@ class Quest {
             WHERE pq.id IS NULL
             AND (q.min_level <= $2 OR q.min_level IS NULL)
             AND (q.max_level >= $2 OR q.max_level IS NULL)
-            AND (q.location = $3 OR q.location IS NULL OR $3 IS NULL OR $3 = '')
-            AND (q.faction_requirement = $4 OR q.faction_requirement IS NULL OR $4 IS NULL OR $4 = '')
-            AND (q.race_requirement = $5 OR q.race_requirement IS NULL OR $5 IS NULL OR $5 = '')
-            AND (q.origin_requirement = $6 OR q.origin_requirement IS NULL OR $6 IS NULL OR $6 = '')
+            -- For location (text) allow NULL or unspecified player location
+            AND (q.location = $3 OR q.location IS NULL OR $3 IS NULL)
+            -- Enum columns are cast to text for safe comparison so empty strings don't try to parse into enums
+            AND (q.faction_requirement::text = $4 OR q.faction_requirement IS NULL OR $4 IS NULL)
+            AND (q.race_requirement::text = $5 OR q.race_requirement IS NULL OR $5 IS NULL)
+            AND (q.origin_requirement::text = $6 OR q.origin_requirement IS NULL OR $6 IS NULL)
             ORDER BY q.difficulty, q.min_level
         `, params);
 
