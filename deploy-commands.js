@@ -29,7 +29,7 @@ const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 // Deploy commands
 (async () => {
     try {
-        console.log(`\n🚀 Started refreshing ${commands.length} application (/) commands.`);
+        console.log(`\n🚀 Started refreshing ${commands.length} application (/) commands globally.`);
         
         // Check if we have required environment variables
         if (!process.env.DISCORD_TOKEN) {
@@ -40,25 +40,14 @@ const rest = new REST().setToken(process.env.DISCORD_TOKEN);
             throw new Error('CLIENT_ID is required in environment variables');
         }
 
-        let data;
-
-        // Check if GUILD_ID is provided for guild-specific deployment (faster for development)
-        if (process.env.GUILD_ID) {
-            console.log(`📍 Deploying commands to guild: ${process.env.GUILD_ID}`);
-            data = await rest.put(
-                Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
-                { body: commands },
-            );
-            console.log(`✅ Successfully reloaded ${data.length} guild (/) commands.`);
-        } else {
-            // Global deployment (takes up to 1 hour to propagate)
-            console.log('🌍 Deploying commands globally (this may take up to 1 hour to propagate)...');
-            data = await rest.put(
-                Routes.applicationCommands(process.env.CLIENT_ID),
-                { body: commands },
-            );
-            console.log(`✅ Successfully reloaded ${data.length} global (/) commands.`);
-        }
+        // Global deployment (takes up to 1 hour to propagate)
+        console.log('🌍 Deploying commands globally (this may take up to 1 hour to propagate)...');
+        const data = await rest.put(
+            Routes.applicationCommands(process.env.CLIENT_ID),
+            { body: commands },
+        );
+        console.log(`✅ Successfully reloaded ${data.length} global (/) commands.`);
+        
 
         console.log('\n📋 Deployed commands:');
         data.forEach((command, index) => {
@@ -66,18 +55,13 @@ const rest = new REST().setToken(process.env.DISCORD_TOKEN);
         });
 
         console.log('\n🎉 Command deployment completed successfully!');
-        console.log('\nNote: If deployed globally, commands may take up to 1 hour to appear in Discord.');
-        console.log('For faster testing, set GUILD_ID in your .env file for guild-specific deployment.');
+        console.log('\nNote: Global commands may take up to 1 hour to appear in all Discord servers.');
 
     } catch (error) {
         console.error('\n❌ Error deploying commands:');
         
         if (error.code === 50001) {
-            console.error('Missing Access - Check if bot is in the guild and has application.commands scope');
-        } else if (error.code === 50013) {
-            console.error('Missing Permissions - Bot needs Administrator or appropriate permissions');
-        } else if (error.code === 10003) {
-            console.error('Unknown Channel - Check if GUILD_ID is correct');
+            console.error('Missing Access - Check if the bot has the application.commands scope');
         } else if (error.rawError?.message?.includes('Invalid Form Body')) {
             console.error('Invalid command structure - Check command data format');
             console.error('Commands that failed validation:');
@@ -90,9 +74,8 @@ const rest = new REST().setToken(process.env.DISCORD_TOKEN);
         
         console.log('\n🔧 Troubleshooting tips:');
         console.log('1. Verify DISCORD_TOKEN and CLIENT_ID in .env file');
-        console.log('2. Ensure bot has been invited to the guild with proper permissions');
-        console.log('3. Check that all command files have valid structure');
-        console.log('4. For guild deployment, verify GUILD_ID is correct');
+        console.log('2. Ensure the bot has been invited with the correct permissions');
+        console.log('3. Check that all command files have a valid structure');
         
         process.exit(1);
     }
